@@ -2264,28 +2264,59 @@ G |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">F
     <!-- PLAN CARDS GRID -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2.5rem;align-items:stretch;">
 
-      <!-- ── FREE CARD ────────────────────────────────────────────────────── -->
-      <div class="card" style="padding:1.8rem;display:flex;flex-direction:column;">
-        <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Free</div>
-        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:1rem;">Always Free</div>
+      <!-- ── 3-DAY TRIAL CARD ─────────────────────────────────────────────── -->
+      <div class="card" style="padding:1.8rem;display:flex;flex-direction:column;border-color:rgba(80,160,80,.35);box-shadow:0 4px 20px rgba(80,160,80,.08);">
+        <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(80,160,80,.2);border:1px solid rgba(80,160,80,.4);color:#90d090;display:inline-block;padding:.2rem .6rem;border-radius:20px;margin-bottom:.6rem;width:fit-content;">✦ Try Free</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:1rem;">3-Day Trial</div>
+        <div style="font-size:.82rem;color:var(--crd);font-style:italic;margin-bottom:1rem;">Try everything free</div>
         <div style="margin-bottom:1.2rem;">
           <div class="price-monthly" style="display:'';">
-            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$0</span>
-            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ month</span>
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">FREE</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">for 3 days</span>
           </div>
           <div class="price-annual" style="display:none;">
-            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$0</span>
-            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ year</span>
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">FREE</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">for 3 days</span>
           </div>
+          <div style="font-size:.82rem;color:var(--crd);margin-top:.3rem;">then choose a plan</div>
         </div>
         <div style="flex:1;margin-bottom:1.2rem;">
-          <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Includes</div>
-          <div class="ri">Basic guitar, banjo &amp; mandolin lessons</div>
-          <div class="ri">Full chord library with diagrams</div>
-          <div class="ri">Music theory &amp; Circle of Fifths</div>
-          <div class="ri">Beginner song library</div>
+          <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Full access during trial</div>
+          <div class="ri">All 50 lessons across 7 instruments</div>
+          <div class="ri">Chord library &amp; music theory</div>
+          <div class="ri">AI music assistant (ask anything)</div>
+          <div class="ri">Practice tracker &amp; tuner reference</div>
+          <div class="ri">Credit card required — auto-charges after trial</div>
         </div>
-        <button class="btn-out" style="width:100%;text-align:center;" onclick="showPage('lessons')">Start Free</button>
+        <form id="trial-monthly" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — 3-Day Trial then Picker Monthly">
+          <input type="hidden" name="a1" value="0.00">
+          <input type="hidden" name="p1" value="3">
+          <input type="hidden" name="t1" value="D">
+          <input type="hidden" name="a3" value="5.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="M">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;">Start 3-Day Trial — then $5/mo</button>
+        </form>
+        <form id="trial-annual" style="display:none;" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — 3-Day Trial then Picker Annual">
+          <input type="hidden" name="a1" value="0.00">
+          <input type="hidden" name="p1" value="3">
+          <input type="hidden" name="t1" value="D">
+          <input type="hidden" name="a3" value="48.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="Y">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;">Start 3-Day Trial — then $48/yr</button>
+        </form>
+        <p style="text-align:center;font-size:.8rem;color:var(--crd);font-style:italic;margin-top:.6rem;">Cancel anytime before day 3 to avoid charges.</p>
       </div>
 
       <!-- ── PICKER CARD (Most Popular) ─────────────────────────────────── -->
@@ -2391,7 +2422,7 @@ G |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">F
     <!-- TRUST STRIP -->
     <div style="background:linear-gradient(135deg,rgba(212,160,23,.06),rgba(160,120,16,.08));border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:1.4rem 2rem;text-align:center;">
       <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem 2.5rem;">
-        <div style="color:var(--crd);font-size:.92rem;">🔒 <strong style="color:var(--cr);">Secure payments via PayPal</strong> — cancel anytime</div>
+        <div style="color:var(--crd);font-size:.92rem;">🔒 <strong style="color:var(--cr);">Secure payments via PayPal</strong> — cancel anytime &nbsp;·&nbsp; 🟢 3-day free trial · Credit card required · Cancel before day 3 to avoid charges</div>
         <div style="color:var(--crd);font-size:.92rem;">✦ <strong style="color:var(--cr);">Any device</strong>, no download required</div>
         <div style="color:var(--crd);font-size:.92rem;">✉ Questions? <a href="mailto:corrickdean8@gmail.com" style="color:var(--ambl);text-decoration:none;">corrickdean8@gmail.com</a></div>
       </div>
@@ -2846,11 +2877,11 @@ function sendChat() {
 
 // ── PLANS BILLING TOGGLE ────────────────────────────────────────────────
 function setPlanBilling(type) {
-  ['picker-monthly','pro-monthly'].forEach(function(id) {
+  ['trial-monthly','picker-monthly','pro-monthly'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = type === 'monthly' ? 'block' : 'none';
   });
-  ['picker-annual','pro-annual'].forEach(function(id) {
+  ['trial-annual','picker-annual','pro-annual'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = type === 'annual' ? 'block' : 'none';
   });
