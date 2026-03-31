@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Madness — Folk, Blues &amp; Bluegrass</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap");
+:root{
+  --mah:#1a0f0a;--mah2:#2c1810;--mah3:#3d2218;--mah4:#4e2d22;
+  --amb:#d4a017;--ambl:#e8b84b;--ambd:#a07810;
+  --cr:#f5e6c8;--crd:#c9b48e;--lea:#7a4f2e;
+  --acc-guitar:#c45e38;--acc-banjo:#c8a820;--acc-mandolin:#4a9eb5;
+}
+*{box-sizing:border-box;}
+body{background-color:var(--mah);color:var(--cr);font-family:"Crimson Text",Georgia,serif;font-size:18px;line-height:1.7;min-height:100vh;background-image:radial-gradient(ellipse at top left,rgba(212,160,23,.06) 0%,transparent 50%),radial-gradient(ellipse at bottom right,rgba(122,79,46,.1) 0%,transparent 60%);}
+h1,h2,h3,h4{font-family:"Playfair Display",Georgia,serif;}
+/* NAV */
+.nav-bar{background:linear-gradient(to bottom,#0d0704,var(--mah));border-bottom:2px solid var(--ambd);box-shadow:0 4px 20px rgba(0,0,0,.6);position:sticky;top:0;z-index:100;}
+.nav-brand{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-style:italic;font-size:1.8rem;background:linear-gradient(135deg,var(--ambl),var(--amb),#c8860f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;letter-spacing:-.5px;}
+.nav-tab{color:var(--crd);font-family:"Special Elite",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:.5rem .6rem;border-radius:4px;transition:all .2s;cursor:pointer;border:1px solid transparent;white-space:nowrap;background:transparent;}
+.nav-tab:hover{color:var(--ambl);border-color:rgba(212,160,23,.25);background:rgba(212,160,23,.06);}
+.nav-tab.active{color:var(--amb);border-color:var(--ambd);background:rgba(212,160,23,.12);}
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;animation:fadeIn .45s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* CARDS */
+.card{background:linear-gradient(145deg,var(--mah2),var(--mah3));border:1px solid rgba(212,160,23,.2);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .25s;}
+.card:hover{border-color:rgba(212,160,23,.45);box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(-2px);}
+.icrd{background:linear-gradient(160deg,var(--mah3),var(--mah2));border:1px solid rgba(212,160,23,.25);border-radius:12px;padding:2rem 1.5rem;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.icrd::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,160,23,.08),transparent);opacity:0;transition:opacity .3s;}
+.icrd:hover::before{opacity:1;}
+.icrd:hover{border-color:var(--amb);box-shadow:0 12px 40px rgba(0,0,0,.5);transform:translateY(-4px);}
+.minicrd{background:var(--mah3);border:1px solid rgba(212,160,23,.18);border-radius:8px;padding:1rem;cursor:pointer;transition:all .2s;text-align:center;}
+.minicrd:hover{border-color:rgba(212,160,23,.4);background:var(--mah4);}
+.shead{font-family:"Playfair Display",Georgia,serif;font-size:1.8rem;font-weight:700;color:var(--ambl);border-bottom:1px solid rgba(212,160,23,.3);padding-bottom:.5rem;margin-bottom:1.5rem;}
+.tab-block{font-family:"Courier New",Courier,monospace;background:#0d0704;border:1px solid rgba(212,160,23,.25);border-left:3px solid var(--ambd);border-radius:6px;padding:1.2rem 1.5rem;font-size:.88rem;line-height:1.6;color:#b8e0b0;overflow-x:auto;white-space:pre;box-shadow:inset 0 2px 8px rgba(0,0,0,.4);margin:1rem 0;}
+.lcrd{background:linear-gradient(145deg,var(--mah2),#221309);border:1px solid rgba(212,160,23,.2);border-radius:10px;overflow:hidden;margin-bottom:1rem;transition:border-color .2s;}
+.lcrd.open{border-color:rgba(212,160,23,.45);}
+.lhead{padding:1rem 1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;background:rgba(0,0,0,.15);transition:background .2s;}
+.lhead:hover{background:rgba(212,160,23,.06);}
+.lbody{display:none;padding:1.5rem;border-top:1px solid rgba(212,160,23,.2);animation:fadeIn .3s ease;}
+.lcrd.open .lbody{display:block;}
+.chev{color:var(--amb);transition:transform .3s;font-size:1.2rem;}
+.lcrd.open .chev,.tcrd.open .chev{transform:rotate(180deg);}
+.badge{display:inline-block;padding:.15rem .6rem;border-radius:20px;font-family:"Special Elite",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;}
+.bbeg{background:rgba(80,160,80,.2);border:1px solid rgba(80,160,80,.4);color:#90d090;}
+.bint{background:rgba(212,160,23,.15);border:1px solid rgba(212,160,23,.4);color:var(--ambl);}
+.badv{background:rgba(180,60,40,.2);border:1px solid rgba(180,60,40,.4);color:#e08070;}
+.sidebar{background:linear-gradient(to bottom,var(--mah2),#1e0e08);border:1px solid rgba(212,160,23,.18);border-radius:8px;padding:1.2rem;}
+.slbl{font-family:"Special Elite",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ambd);margin-bottom:.5rem;display:block;}
+.sbtn{width:100%;text-align:left;padding:.55rem .8rem;border-radius:5px;font-family:"Crimson Text",serif;font-size:1rem;color:var(--crd);transition:all .2s;cursor:pointer;border:1px solid transparent;background:transparent;margin-bottom:2px;}
+.sbtn:hover{background:rgba(212,160,23,.08);color:var(--cr);border-color:rgba(212,160,23,.2);}
+.sbtn.active{background:rgba(212,160,23,.14);color:var(--ambl);border-color:rgba(212,160,23,.35);}
+.tcrd{background:linear-gradient(145deg,var(--mah2),#221309);border:1px solid rgba(212,160,23,.2);border-radius:10px;overflow:hidden;margin-bottom:1rem;}
+.tcrd.open{border-color:rgba(212,160,23,.4);}
+.thead2{padding:1rem 1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+.thead2:hover{background:rgba(212,160,23,.05);}
+.tbody2{display:none;padding:1.5rem;border-top:1px solid rgba(212,160,23,.15);animation:fadeIn .3s ease;}
+.tcrd.open .tbody2{display:block;}
+.chord-card{background:linear-gradient(145deg,var(--mah2),var(--mah3));border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:1.2rem;text-align:center;transition:all .25s;}
+.chord-card:hover{border-color:rgba(212,160,23,.5);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.chord-name{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:700;color:var(--amb);margin-bottom:.5rem;}
+.chord-diag{font-family:"Courier New",monospace;font-size:.78rem;background:#0d0704;border:1px solid rgba(212,160,23,.2);border-radius:5px;padding:.7rem;text-align:left;color:#b8e0b0;white-space:pre;display:inline-block;margin:.5rem auto;line-height:1.5;}
+.fbtn{padding:.4rem 1.1rem;border-radius:20px;font-family:"Special Elite",monospace;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:all .2s;border:1px solid rgba(212,160,23,.3);color:var(--crd);background:transparent;}
+.fbtn:hover,.fbtn.active{background:rgba(212,160,23,.15);border-color:var(--amb);color:var(--ambl);}
+.tinput{background:var(--mah3);border:1px solid rgba(212,160,23,.3);border-radius:6px;padding:.6rem 1rem;color:var(--cr);font-family:"Crimson Text",serif;font-size:1rem;width:100%;outline:none;transition:border-color .2s;}
+.tinput:focus{border-color:var(--amb);box-shadow:0 0 0 2px rgba(212,160,23,.1);}
+.tinput option{background:var(--mah2);color:var(--cr);}
+.btn-gold{background:linear-gradient(135deg,var(--amb),var(--ambd));color:var(--mah);font-family:"Special Elite",monospace;font-weight:bold;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.65rem 1.8rem;border-radius:6px;border:none;cursor:pointer;transition:all .2s;box-shadow:0 3px 12px rgba(212,160,23,.3);}
+.btn-gold:hover{background:linear-gradient(135deg,var(--ambl),var(--amb));box-shadow:0 5px 20px rgba(212,160,23,.45);transform:translateY(-1px);}
+.btn-out{background:transparent;color:var(--amb);font-family:"Special Elite",monospace;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:6px;border:1px solid var(--ambd);cursor:pointer;transition:all .2s;}
+.btn-out:hover{background:rgba(212,160,23,.1);border-color:var(--amb);}
+.streak-box{background:linear-gradient(135deg,rgba(212,160,23,.1),rgba(168,120,16,.15));border:1px solid rgba(212,160,23,.3);border-radius:10px;padding:1.5rem;text-align:center;}
+.streak-num{font-family:"Playfair Display",serif;font-size:3.5rem;font-weight:900;color:var(--amb);line-height:1;animation:gp 3s ease-in-out infinite;}
+@keyframes gp{0%,100%{text-shadow:0 0 20px rgba(212,160,23,.4)}50%{text-shadow:0 0 40px rgba(212,160,23,.7)}}
+/* ARTIST CARDS */
+.artist-card{background:linear-gradient(145deg,var(--mah2),#1e0f08);border:1px solid rgba(212,160,23,.2);border-radius:12px;padding:1.8rem;transition:all .3s;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.artist-card::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.artist-card.ac-guitar::after{background:linear-gradient(to right,var(--acc-guitar),rgba(196,94,56,.2),transparent);}
+.artist-card.ac-banjo::after{background:linear-gradient(to right,var(--acc-banjo),rgba(200,168,32,.2),transparent);}
+.artist-card.ac-mandolin::after{background:linear-gradient(to right,var(--acc-mandolin),rgba(74,158,181,.2),transparent);}
+.artist-card:hover{border-color:rgba(212,160,23,.5);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.5);}
+.ava{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--mah4),var(--lea));border:2px solid var(--ambd);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:1rem;}
+.yt-btn{margin-top:1rem;display:inline-flex;align-items:center;gap:.4rem;background:rgba(180,20,20,.2);border:1px solid rgba(220,60,60,.3);color:#ff7070;padding:.4rem .9rem;border-radius:5px;font-family:"Special Elite",monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .2s;width:fit-content;}
+.yt-btn:hover{background:rgba(180,20,20,.35);}
+/* HERO */
+.hero{background:linear-gradient(160deg,var(--mah3) 0%,var(--mah) 60%);border-bottom:1px solid rgba(212,160,23,.15);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,160,23,.07) 0%,transparent 65%);}
+.hero-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(212,160,23,.06) 50%,transparent 65%);background-size:250% 100%;animation:shimmer 8s linear infinite;pointer-events:none;}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+/* TIP OF THE DAY */
+.tip-card{background:linear-gradient(135deg,rgba(212,160,23,.08),rgba(160,120,16,.12));border:1px solid rgba(212,160,23,.28);border-left:4px solid var(--amb);border-radius:0 10px 10px 0;padding:1.2rem 1.6rem;position:relative;}
+.tip-label{font-family:"Special Elite",monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ambd);margin-bottom:.4rem;}
+.tip-text{font-family:"Crimson Text",serif;font-size:1.05rem;color:var(--cr);font-style:italic;line-height:1.65;}
+/* GENRE TAGS */
+.gtag{display:inline-block;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.25);border-radius:20px;padding:.15rem .7rem;font-family:"Special Elite",monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ambd);margin-right:.3rem;margin-bottom:.3rem;}
+.nxbtn{background:linear-gradient(135deg,rgba(212,160,23,.15),rgba(168,120,16,.2));border:1px solid rgba(212,160,23,.35);color:var(--ambl);font-family:"Special Elite",monospace;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:6px;cursor:pointer;transition:all .2s;}
+.nxbtn:hover{background:linear-gradient(135deg,rgba(212,160,23,.22),rgba(168,120,16,.28));border-color:var(--amb);}
+.ptip{background:rgba(212,160,23,.06);border-left:3px solid var(--ambd);padding:.8rem 1rem;border-radius:0 6px 6px 0;margin-top:1rem;font-size:.95rem;color:var(--crd);font-style:italic;}
+.log-e{background:rgba(0,0,0,.2);border:1px solid rgba(212,160,23,.15);border-radius:6px;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;font-size:.95rem;}
+.del-btn{background:transparent;border:none;color:rgba(180,80,60,.5);cursor:pointer;font-size:.9rem;padding:0 .3rem;transition:color .2s;}
+.del-btn:hover{color:rgba(220,80,60,.8);}
+.rsec{background:rgba(0,0,0,.25);border:1px solid rgba(212,160,23,.15);border-left:3px solid var(--ambd);border-radius:6px;padding:1rem 1.2rem;margin-top:.5rem;}
+.ri{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.4rem;font-size:.95rem;color:var(--crd);}
+.ri::before{content:"♪";color:var(--ambd);flex-shrink:0;}
+/* METRONOME BPM TABLE */
+.bpm-table{width:100%;border-collapse:collapse;font-size:.95rem;}
+.bpm-table th{font-family:"Special Elite",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);text-align:left;padding:.5rem .8rem;border-bottom:1px solid rgba(212,160,23,.25);}
+.bpm-table td{padding:.65rem .8rem;border-bottom:1px solid rgba(212,160,23,.1);color:var(--crd);vertical-align:middle;}
+.bpm-table tr:last-child td{border-bottom:none;}
+.bpm-table tr:hover td{background:rgba(212,160,23,.04);}
+.bpm-num{font-family:"Playfair Display",serif;font-weight:700;color:var(--amb);font-size:1rem;white-space:nowrap;}
+/* TUNER */
+.string-btn{background:linear-gradient(145deg,var(--mah3),var(--mah2));border:2px solid rgba(212,160,23,.35);border-radius:10px;padding:1.1rem .8rem;text-align:center;transition:all .25s;cursor:default;}
+.string-btn:hover{border-color:var(--amb);background:linear-gradient(145deg,var(--mah4),var(--mah3));transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.4);}
+.string-note{font-family:"Playfair Display",serif;font-size:2rem;font-weight:900;color:var(--ambl);line-height:1;}
+.string-name{font-family:"Special Elite",monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ambd);margin-top:.4rem;}
+.string-freq{font-size:.8rem;color:var(--crd);margin-top:.15rem;}
+.tuning-table{width:100%;border-collapse:collapse;font-size:.95rem;}
+.tuning-table th{font-family:"Special Elite",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);padding:.5rem .8rem;text-align:left;border-bottom:1px solid rgba(212,160,23,.25);}
+.tuning-table td{padding:.65rem .8rem;border-bottom:1px solid rgba(212,160,23,.1);color:var(--crd);}
+.tuning-table tr:last-child td{border-bottom:none;}
+.tuning-table td:first-child{font-family:"Playfair Display",serif;font-weight:700;color:var(--cr);}
+.tuning-mono{font-family:"Courier New",monospace;background:rgba(0,0,0,.35);padding:.15rem .5rem;border-radius:4px;font-size:.85rem;color:#b8e0b0;letter-spacing:.05em;}
+.capo-table{width:100%;border-collapse:collapse;font-size:.95rem;}
+.capo-table th{font-family:"Special Elite",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);padding:.5rem .8rem;text-align:center;border-bottom:1px solid rgba(212,160,23,.25);}
+.capo-table td{padding:.6rem .8rem;border-bottom:1px solid rgba(212,160,23,.1);color:var(--crd);text-align:center;}
+.capo-table tr:last-child td{border-bottom:none;}
+.capo-table tr:hover td{background:rgba(212,160,23,.04);}
+.capo-pos{font-family:"Playfair Display",serif;font-weight:700;color:var(--amb);font-size:1.1rem;}
+.capo-key{font-family:"Special Elite",monospace;font-size:.85rem;color:var(--ambl);font-weight:bold;}
+.capo-key-dim{font-family:"Special Elite",monospace;font-size:.82rem;color:var(--crd);}
+/* SONGS */
+.song-card{background:linear-gradient(145deg,var(--mah2),var(--mah3));border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:1.4rem 1.4rem 1.4rem 1.8rem;transition:all .25s;position:relative;overflow:hidden;}
+.song-card::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;border-radius:10px 0 0 10px;}
+.song-card.sc-guitar::before{background:var(--acc-guitar);}
+.song-card.sc-banjo::before{background:var(--acc-banjo);}
+.song-card.sc-mandolin::before{background:var(--acc-mandolin);}
+.song-card.sc-multi::before{background:linear-gradient(to bottom,var(--acc-guitar),var(--acc-banjo),var(--acc-mandolin));}
+.song-card:hover{border-color:rgba(212,160,23,.45);box-shadow:0 8px 28px rgba(0,0,0,.45);transform:translateY(-2px);}
+.song-title{font-family:"Playfair Display",serif;font-size:1.15rem;font-weight:700;color:var(--cr);margin-bottom:.15rem;}
+.song-artist{font-family:"Crimson Text",serif;font-style:italic;color:var(--crd);font-size:.9rem;margin-bottom:.6rem;}
+.song-note{font-size:.88rem;color:rgba(201,180,142,.7);font-style:italic;margin-top:.5rem;line-height:1.4;}
+.chord-pill{display:inline-block;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.28);border-radius:4px;padding:.1rem .45rem;font-family:"Courier New",monospace;font-size:.78rem;color:var(--ambl);margin-right:.25rem;margin-bottom:.25rem;}
+.key-badge{display:inline-block;background:rgba(80,100,200,.15);border:1px solid rgba(100,130,220,.3);border-radius:20px;padding:.1rem .5rem;font-family:"Special Elite",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:#a0b4f0;margin-right:.3rem;}
+.instr-tag{display:inline-block;background:rgba(0,0,0,.3);border:1px solid rgba(212,160,23,.15);border-radius:20px;padding:.1rem .5rem;font-family:"Special Elite",monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ambd);margin-right:.3rem;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-track{background:var(--mah);}
+::-webkit-scrollbar-thumb{background:var(--lea);border-radius:4px;}
+.cof-c{display:flex;justify-content:center;margin:1.5rem 0;}
+/* MOBILE */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:transparent;border:none;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--amb);border-radius:2px;}
+.mmenu{display:none;position:absolute;top:100%;left:0;right:0;background:#0d0704;border-bottom:2px solid var(--ambd);padding:.5rem;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.6);}
+.mmenu .nav-tab{display:block;text-align:center;margin-bottom:2px;}
+@media(max-width:900px){.dnav{display:none!important;}.hamburger{display:flex!important;}.mmenu.open{display:block;}.lgrid{flex-direction:column!important;}.lsbar{width:100%!important;}.lsbar .sidebar{display:flex;flex-wrap:wrap;gap:.4rem;padding:.8rem;}.lsbar .sidebar .slbl{width:100%;}.lsbar .sidebar .sbtn{width:auto;flex:0 0 auto;}.sbi{flex-direction:column!important;}}
+@media(min-width:901px){.lsbar{position:sticky;top:80px;align-self:flex-start;}}
+@media(max-width:480px){.tab-block{font-size:.78rem;}.chord-diag{font-size:.7rem;}.string-note{font-size:1.5rem;}}
+
+</style>
+</head>
+
+<body>
+<nav class="nav-bar">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1.2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:relative;">
+    <div class="nav-brand" onclick="showPage('home')">🎸 Music Madness</div>
+    <div class="dnav" style="display:flex;gap:.15rem;align-items:center;">
+      <button class="nav-tab active" onclick="showPage('home')" id="nav-home">Home</button>
+      <button class="nav-tab" onclick="showPage('lessons')" id="nav-lessons">Lessons</button>
+      <button class="nav-tab" onclick="showPage('theory')" id="nav-theory">Theory</button>
+      <button class="nav-tab" onclick="showPage('chords')" id="nav-chords">Chords</button>
+      <button class="nav-tab" onclick="showPage('tracker')" id="nav-tracker">Practice</button>
+      <button class="nav-tab" onclick="showPage('songs')" id="nav-songs">Songs</button>
+      <button class="nav-tab" onclick="showPage('tuner')" id="nav-tuner">Tuner</button>
+      <button class="nav-tab" onclick="showPage('artists')" id="nav-artists">Artists</button>
+      <button class="nav-tab" onclick="showPage('plans')" id="nav-plans">Plans</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="mmenu" id="mobileMenu">
+      <button class="nav-tab active" onclick="showPage('home');closeMM()" id="mnav-home">Home</button>
+      <button class="nav-tab" onclick="showPage('lessons');closeMM()" id="mnav-lessons">Lessons</button>
+      <button class="nav-tab" onclick="showPage('theory');closeMM()" id="mnav-theory">Theory</button>
+      <button class="nav-tab" onclick="showPage('chords');closeMM()" id="mnav-chords">Chords</button>
+      <button class="nav-tab" onclick="showPage('tracker');closeMM()" id="mnav-tracker">Practice</button>
+      <button class="nav-tab" onclick="showPage('songs');closeMM()" id="mnav-songs">Songs</button>
+      <button class="nav-tab" onclick="showPage('tuner');closeMM()" id="mnav-tuner">Tuner</button>
+      <button class="nav-tab" onclick="showPage('artists');closeMM()" id="mnav-artists">Artists</button>
+      <button class="nav-tab" onclick="showPage('plans');closeMM()" id="mnav-plans">Plans</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-shimmer"></div>
+    <p style="font-family:'Playfair Display',serif;font-size:clamp(1rem,2.5vw,1.3rem);color:var(--amb);letter-spacing:.15em;text-transform:uppercase;font-style:italic;margin-bottom:.75rem;position:relative;">♪ Est. In the Spirit of the Old Ways ♪</p>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;color:var(--cr);line-height:1.2;margin-bottom:1.2rem;max-width:700px;margin-left:auto;margin-right:auto;position:relative;">Learn the music that<br>moves the soul</h1>
+    <p style="color:var(--crd);font-size:1.1rem;font-style:italic;max-width:520px;margin:0 auto 2rem;position:relative;">Folk, Blues &amp; Bluegrass — from first chord to full song, taught the old-fashioned way</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;">
+      <button class="btn-gold" onclick="showPage('lessons')">Start Learning</button>
+      <button class="btn-out" onclick="showPage('artists')">Meet the Legends</button>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem;">
+    <!-- TIP OF THE DAY -->
+    <div class="tip-card" style="margin-bottom:2rem;">
+      <div class="tip-label">✨ Tip of the Day</div>
+      <div class="tip-text" id="tip-text">Loading tip&hellip;</div>
+    </div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ambl);text-align:center;margin-bottom:.5rem;">◆ Choose Your Instrument ◆</h2>
+    <p style="text-align:center;color:var(--crd);font-style:italic;margin-bottom:2rem;font-size:1rem;">Click any instrument to jump into lessons</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:2rem;">
+      <div class="icrd" onclick="goToLesson('mandolin')">
+        <img src="https://images.stilla.ai/A7ZxvEfgTl3V3EfVj3FCRfNxZAupRArLKdceQeKLKU0/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1gy0qgf58r2g5taayzggn5.png" alt="Mandolin" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:.75rem;display:block;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:.4rem;">Mandolin</h3>
+        <p style="color:var(--crd);font-size:.95rem;margin-bottom:1rem;">The soul of bluegrass. Eight strings, infinite songs.</p>
+        <div><span class="gtag">Bluegrass</span><span class="gtag">Folk</span></div>
+        <div style="margin-top:1rem;font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;color:var(--ambd);text-transform:uppercase;">3 Lessons Available →</div>
+      </div>
+      <div class="icrd" onclick="goToLesson('guitar')">
+        <span style="font-size:3.5rem;line-height:1;display:block;margin-bottom:.75rem;">🎸</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:.4rem;">Guitar</h3>
+        <p style="color:var(--crd);font-size:.95rem;margin-bottom:1rem;">The backbone of folk and blues. From open chords to flatpicking.</p>
+        <div><span class="gtag">Blues</span><span class="gtag">Folk</span><span class="gtag">Country</span></div>
+        <div style="margin-top:1rem;font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;color:var(--ambd);text-transform:uppercase;">3 Lessons Available →</div>
+      </div>
+      <div class="icrd" onclick="goToLesson('banjo')">
+        <img src="https://images.stilla.ai/9njAd_WNNrIsEB7k02MhKaq73aXDQosJTQHWFxICo74/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1h1f24f2yr5srwh2vgdjjb.png" alt="Banjo" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:.75rem;display:block;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:.4rem;">Banjo</h3>
+        <p style="color:var(--crd);font-size:.95rem;margin-bottom:1rem;">Drive the rhythm. Clawhammer to Scruggs-style rolls.</p>
+        <div><span class="gtag">Bluegrass</span><span class="gtag">Old-Time</span></div>
+        <div style="margin-top:1rem;font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;color:var(--ambd);text-transform:uppercase;">3 Lessons Available →</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:3rem;">
+      <div class="minicrd"><img src="https://images.stilla.ai/vrwXBTiczqTuO1F_qjiqucRc2GPuGmH0-2b48FxLXi0/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1hatd3fpyajmtnqe9mh9mb.png" alt="Violin" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-bottom:.4rem;display:block;"><div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--cr);font-weight:600;">Violin</div><div style="font-size:.82rem;color:var(--crd);">Coming soon</div></div>
+      <div class="minicrd"><img src="https://images.stilla.ai/qBlGJD9YcDgU3fvFCZopyHBLfe1GCEhTafcQtRRJ2Sc/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1hatneetcv1xmmk1rnbxwg.png" alt="Bass" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-bottom:.4rem;display:block;"><div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--cr);font-weight:600;">Bass</div><div style="font-size:.82rem;color:var(--crd);">Coming soon</div></div>
+      <div class="minicrd"><img src="https://images.stilla.ai/KIhwo3qlNU1S5Rnpe2W-p0FkED1ke_N1VyiLcX71aVQ/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1hatv1f32strmxfdwxfqn0.png" alt="Ukulele" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-bottom:.4rem;display:block;"><div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--cr);font-weight:600;">Ukulele</div><div style="font-size:.82rem;color:var(--crd);">Coming soon</div></div>
+      <div class="minicrd"><img src="https://images.stilla.ai/Y1En2buP2ba2nrQi9wk3ePtND8D9ceA6KapXuJ0Zuek/s:0/plain/gs://stilla-org-files/org_01kn0t9z3kezx98v2nf8gzmfdk/files/file_01kn1h45qjebf8yhc9thx2np7d.png" alt="Resonator Guitar" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-bottom:.4rem;display:block;"><div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--cr);font-weight:600;">Slide Guitar</div><div style="font-size:.82rem;color:var(--crd);">Coming soon</div></div>
+    </div>
+    <div style="background:linear-gradient(to right,var(--mah2),var(--mah3),var(--mah2));border-top:1px solid rgba(212,160,23,.2);border-bottom:1px solid rgba(212,160,23,.2);border-radius:10px;overflow:hidden;">
+      <div class="sbi" style="display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;padding:.5rem 0;">
+        <div style="text-align:center;padding:1rem 2rem;"><div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--amb);">7</div><div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--crd);">Instruments</div></div>
+        <div style="color:var(--ambd);font-size:1.5rem;opacity:.5;">◆</div>
+        <div style="text-align:center;padding:1rem 2rem;"><div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--amb);">30+</div><div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--crd);">Lessons</div></div>
+        <div style="color:var(--ambd);font-size:1.5rem;opacity:.5;">◆</div>
+        <div style="text-align:center;padding:1rem 2rem;"><div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--amb);">3</div><div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--crd);">Genres</div></div>
+        <div style="color:var(--ambd);font-size:1.5rem;opacity:.5;">◆</div>
+        <div style="text-align:center;padding:1rem 2rem;"><div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--amb);">∞</div><div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--crd);">Possibilities</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;color:var(--ambd);font-size:1.2rem;letter-spacing:.4em;margin:2.5rem 0 1rem;opacity:.7;">✦</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('theory')"><div style="font-size:1.8rem;margin-bottom:.5rem;">📜</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Music Theory</h4><p style="color:var(--crd);font-size:.9rem;">Blues scales, progressions &amp; key signatures.</p></div>
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('chords')"><div style="font-size:1.8rem;margin-bottom:.5rem;">🥁</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Chord Library</h4><p style="color:var(--crd);font-size:.9rem;">Visual chord diagrams for all instruments.</p></div>
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('songs')"><div style="font-size:1.8rem;margin-bottom:.5rem;">🎵</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Song Library</h4><p style="color:var(--crd);font-size:.9rem;">12 beginner songs with chords &amp; keys.</p></div>
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('tuner')"><div style="font-size:1.8rem;margin-bottom:.5rem;">🎯</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Tuner Reference</h4><p style="color:var(--crd);font-size:.9rem;">Tunings, capo chart &amp; alternate tunings.</p></div>
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('tracker')"><div style="font-size:1.8rem;margin-bottom:.5rem;">📅</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Practice Tracker</h4><p style="color:var(--crd);font-size:.9rem;">Track sessions, build streaks, reach goals.</p></div>
+      <div class="card" style="padding:1.5rem;cursor:pointer;" onclick="showPage('artists')"><div style="font-size:1.8rem;margin-bottom:.5rem;">🎤</div><h4 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">Artists</h4><p style="color:var(--crd);font-size:.9rem;">Discover the legends of folk, blues &amp; bluegrass.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-lessons">
+  <div style="max-width:1200px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Lessons</h2>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;" class="lgrid">
+      <div style="width:200px;flex-shrink:0;" class="lsbar">
+        <div class="sidebar">
+          <span class="slbl">Instrument</span>
+          <button class="sbtn active" onclick="filtL('guitar',this)" id="lb-guitar">🎸 Guitar</button>
+          <button class="sbtn" onclick="filtL('banjo',this)" id="lb-banjo">🪘 Banjo</button>
+          <button class="sbtn" onclick="filtL('mandolin',this)" id="lb-mandolin">🪕 Mandolin</button>
+          <div style="margin-top:1.2rem;"></div>
+          <span class="slbl">Level</span>
+          <button class="sbtn active" onclick="filtLv('all',this)" id="lv-all">All Levels</button>
+          <button class="sbtn" onclick="filtLv('beginner',this)" id="lv-beginner">Beginner</button>
+          <button class="sbtn" onclick="filtLv('intermediate',this)" id="lv-intermediate">Intermediate</button>
+          <button class="sbtn" onclick="filtLv('advanced',this)" id="lv-advanced">Advanced</button>
+        </div>
+        <div class="sidebar" style="margin-top:1rem;">
+          <span class="slbl">Progress</span>
+          <div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--amb);font-weight:700;" id="lprog">0/9</div>
+          <div style="font-size:.82rem;color:var(--crd);">Lessons viewed</div>
+          <div style="background:rgba(0,0,0,.3);border-radius:4px;height:6px;margin-top:.6rem;overflow:hidden;">
+            <div id="pbar" style="height:100%;background:linear-gradient(to right,var(--ambd),var(--amb));border-radius:4px;width:0%;transition:width .4s;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;">
+
+        <!-- GUITAR LESSONS -->
+        <div id="ls-guitar">
+          <div class="lcrd" id="lc-guitar-1">
+            <div class="lhead" onclick="togL('guitar-1')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 1 — G Major Chord</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">The cornerstone chord</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">The G major chord is the cornerstone of folk and bluegrass guitar. Almost every song in these genres uses G, and it's the perfect starting point. Master this chord and you'll be playing along to hundreds of songs within days.</p>
+              <div class="tab-block">e |---3---|
+B |---3---|
+G |---0---|
+D |---0---|
+A |---2---|
+E |---3---|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Fingering:</strong> Middle finger on low E, 3rd fret. Ring finger on A string, 2nd fret. Pinky on B string, 3rd fret. Index on high e, 3rd fret (or leave open for easier shape).</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Strum slowly 4 times, counting "1-2-3-4." Aim for every string to ring clearly. If you hear buzzing, press fingertips right behind the fret wire.</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('guitar-1','guitar-2')">Next: D Major Chord →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-guitar-2">
+            <div class="lhead" onclick="togL('guitar-2')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 2 — D Major Chord</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">The perfect partner to G</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">D major pairs perfectly with G for folk and country songs. Together, these two chords are the backbone of bluegrass rhythm. Once you can switch smoothly between G and D, you're ready to play real songs.</p>
+              <div class="tab-block">e |---2---|
+B |---3---|
+G |---2---|
+D |---0---|
+A |---x---|
+E |---x---|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Fingering:</strong> Only strum strings 4 through 1. Index finger on G string 2nd fret, middle on high e 2nd fret, ring on B string 3rd fret. The x means don't play that string.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Switch between G and D every 4 beats. This is the backbone of hundreds of folk songs — try playing along to any simple folk tune using just these two chords.</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('guitar-2','guitar-3')">Next: Travis Picking →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-guitar-3">
+            <div class="lhead" onclick="togL('guitar-3')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 3 — Travis Picking Pattern</div><div style="margin-top:.2rem;"><span class="badge bint">Intermediate</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">Signature fingerpicking</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">Travis picking is the signature fingerpicking style of country and folk guitar. The technique creates a beautiful interplay between a steady bass line and melodic treble strings — giving you the feel of two instruments at once.</p>
+              <div class="tab-block">e |---3-------3-------3-------3---|
+B |---3-------3-------3-------3---|
+G |---0-------0-------0-------0---|
+D |---0-0---0---0---0-0---0---0---|
+A |---2-------2-------2-------2---|
+E |---3---3-------3---3---3-------|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Technique:</strong> Your thumb alternates between bass strings (E and A), while fingers pluck treble strings on the offbeat. The thumb is the rhythmic anchor; fingers add melody.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Start at 60 BPM with a metronome. Thumb on beats 1 and 3, fingers on 2 and 4. Increase speed only when the pattern feels completely natural. Aim for 100 BPM.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BANJO LESSONS -->
+        <div id="ls-banjo" style="display:none;">
+          <div class="lcrd" id="lc-banjo-1">
+            <div class="lhead" onclick="togL('banjo-1')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 1 — G Tuning &amp; Basic Roll</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">Starting from scratch</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">The 5-string banjo in open G tuning: g-D-G-B-D (5th string is high g). All strings open = G major chord. The banjo's bright, ringing tone is the hallmark of bluegrass music.</p>
+              <div class="tab-block">Strings: g  D  G  B  D
+         5  4  3  2  1
+
+Roll:  |---0-------0---|
+       |-------0-------|
+       |---0-------0---|
+       |-------0-------|
+       |0-----------0--|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Technique:</strong> Thumb (T) plays strings 5,4,3. Index (I) plays string 2. Middle (M) plays string 1. Scruggs roll: T-I-T-M-T-I-T-M. Practice slowly — this is the foundation of everything in bluegrass.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> With all strings open, play the roll 8 times without stopping. Focus on even rhythm, not speed. Speed comes naturally with repetition.</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('banjo-1','banjo-2')">Next: Forward Roll →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-banjo-2">
+            <div class="lhead" onclick="togL('banjo-2')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 2 — The Forward Roll</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">Most common bluegrass roll</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">The forward roll is the most common roll pattern in bluegrass banjo. It moves forward across the strings in a flowing pattern that drives the rhythm and creates the characteristic bluegrass sound Earl Scruggs made famous.</p>
+              <div class="tab-block">Pattern: T-I-M repeating (8 notes per measure)
+T = Thumb (strings 5, 4, or 3)
+I = Index (string 2)
+M = Middle (string 1)
+
+g |---0---------------0-----------|
+D |-------0---------------0-------|
+G |-----------0---------------0---|
+B |---0---0-------0---0-------0---|
+D |           0               0   |</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Pattern:</strong> Each 8-note roll covers two beats of 4/4 time. Keep the motion smooth, not jerky. Your wrist should float — never tense your hand.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Play 4 forward rolls in a row without stopping. Start at 80 BPM. Increase by 5 BPM each day until you reach 120 BPM.</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('banjo-2','banjo-3')">Next: Clawhammer →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-banjo-3">
+            <div class="lhead" onclick="togL('banjo-3')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 3 — Clawhammer Basic Stroke</div><div style="margin-top:.2rem;"><span class="badge bint">Intermediate</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">Old-time folk style</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">Clawhammer is the old-time folk style of banjo — predating Scruggs by generations. It uses a downward stroke followed by a thumb brush, creating a driving "bum-ditty" pattern that feels like a conversation between melody and rhythm.</p>
+              <div class="tab-block">D |---0-------0-------0---|  Ditty (5th string thumb)
+G |---0-------0-------0---|
+B |---0---0---0---0---0---|
+D |---0-----------0-------|
+g |-------0-----------0---|  Bum (downstroke brush)</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Technique:</strong> Curl your hand like a claw. Strike DOWN with the back of your index/middle fingernail, then immediately brush the 5th string with your thumb. One fluid motion — down, then thumb.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Say "bum-ditty bum-ditty" out loud as you play. BUM = the downstroke, DITTY = the thumb. Start very slowly — this technique takes weeks to feel natural, but it's incredibly rewarding.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MANDOLIN LESSONS -->
+        <div id="ls-mandolin" style="display:none;">
+          <div class="lcrd" id="lc-mandolin-1">
+            <div class="lhead" onclick="togL('mandolin-1')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 1 — Tuning &amp; G Chord</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">Your first mandolin chord</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">Mandolin is tuned GDAE — same as violin, with 8 strings in 4 pairs (courses) tuned in unison. The bright, cutting tone makes it the lead melody instrument in bluegrass. Tune with a chromatic tuner app.</p>
+              <div class="tab-block">e |---0---|
+A |---0---|
+D |---0---|
+G |---0---|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Open G Chord:</strong> All strings open! Strumming all four strings without fretting gives a full G major chord. Use a medium-weight pick for a versatile sound.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Strum 8 times in a row with consistent pressure. Listen for buzzing — if you hear it, the two strings of a course aren't being pressed evenly.</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('mandolin-1','mandolin-2')">Next: D Chord &amp; The Chop →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-mandolin-2">
+            <div class="lhead" onclick="togL('mandolin-2')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 2 — D Chord &amp; The Chop</div><div style="margin-top:.2rem;"><span class="badge bbeg">Beginner</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">The signature rhythm technique</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">The chop chord is the signature rhythm technique in bluegrass mandolin. That sharp, percussive "chk" sound on beats 2 and 4 drives the rhythm in a bluegrass band. It's the sound Bill Monroe made famous.</p>
+              <div class="tab-block">e |---2---|
+A |---3---|
+D |---4---|
+G |---4---|</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Chop Technique:</strong> Fret the chord firmly, strum DOWN sharply, then immediately release pressure (keep fingers touching strings to mute). This creates the sharp "chk" sound. Muting is as important as the strum.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Chop on beats 2 and 4. Count: "1—CHOP— 3—CHOP." Play open G on 1 and 3, chop on 2 and 4 — that's full bluegrass rhythm!</div>
+              <div style="display:flex;justify-content:flex-end;margin-top:1.2rem;"><button class="nxbtn" onclick="nextL('mandolin-2','mandolin-3')">Next: G Major Scale →</button></div>
+            </div>
+          </div>
+
+          <div class="lcrd" id="lc-mandolin-3">
+            <div class="lhead" onclick="togL('mandolin-3')">
+              <div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">Lesson 3 — G Major Scale</div><div style="margin-top:.2rem;"><span class="badge bint">Intermediate</span> <span style="color:var(--crd);font-size:.85rem;margin-left:.4rem;">The key to all melodies</span></div></div>
+              <span class="chev">⌄</span>
+            </div>
+            <div class="lbody">
+              <p style="margin-bottom:1rem;">The G major scale is essential for playing melodies in bluegrass and folk music. Since most sessions are in G, knowing this scale unlocks the ability to pick out melodies by ear and improvise lead lines.</p>
+              <div class="tab-block">e |---7---5------|
+A |---7---5---4--|
+D |---7---5---4--|
+G |---5---4---2--|
+
+Notes: G - A - B - C - D - E - F# - G</div>
+              <p style="margin:1rem 0;"><strong style="color:var(--ambl);">Technique:</strong> Play from the G string upward. Use alternate picking: down, up, down, up. Keep pick movements small and controlled — economy of motion is the key to speed.</p>
+              <div class="ptip"><strong>🎵 Practice:</strong> Play the scale up and back down, 10 times at 80 BPM. Increase to 90 BPM after a few days. After a week, try picking out "Cripple Creek" — it's all in this scale!</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-theory">
+  <div style="max-width:900px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Music Theory</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:2rem;">Understanding the language beneath the music — scales, progressions, and the building blocks of folk, blues &amp; bluegrass.</p>
+
+    <div class="tcrd" id="tc-1"><div class="thead2" onclick="togT('tc-1')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">1. The Blues Scale</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">The sound that defines American music</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">The blues scale is the foundation of blues, rock, and much of folk. It's a minor pentatonic scale with an added "blue note" — a flattened 5th that gives the blues its bittersweet sound. In G: G, B♭, C, D♭, D, F.</p>
+    <div class="tab-block">G Blues Scale on Guitar:
+e |---3---6---8---9---10---11---|
+B |---3---6---8---9---10-------|
+G |---3---5---6---7---8--------|
+D |---3---5---6---7---8--------|
+A |---3---5---6---7------------|
+E |---3---6---8----------------|
+
+Notes: G  Bb  C  Db  D  F  G</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">The "blue note" (D♭/C#) sits between C and D. Bending strings up to or through this note is the hallmark of blues guitar. Try playing this scale and experimenting with string bends — that's where the emotion lives.</p></div></div>
+
+    <div class="tcrd" id="tc-2"><div class="thead2" onclick="togT('tc-2')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">2. The 12-Bar Blues</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">The universal language of blues musicians</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">The 12-bar blues is the most important chord progression in American music. Once you know it, you can jam with any blues musician in any key. In G, the three chords are G (I), C (IV), and D (V).</p>
+    <div class="tab-block">Bar:  | 1  | 2  | 3  | 4  |
+Chord:| G  | G  | G  | G  |
+
+Bar:  | 5  | 6  | 7  | 8  |
+Chord:| C  | C  | G  | G  |
+
+Bar:  | 9  | 10 | 11 | 12 |
+Chord:| D  | C  | G  | D  |
+
+(Bar 12 = "turnaround" -- leads back to bar 1)</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">Each bar is typically 4 beats. The "quick change" variation goes to C in bar 2. The turnaround in bars 11-12 creates tension that resolves back to the beginning — this circular movement is what makes the 12-bar blues so addictive.</p></div></div>
+
+    <div class="tcrd" id="tc-3"><div class="thead2" onclick="togT('tc-3')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">3. The Pentatonic Scale</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">Five notes, infinite possibilities</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">The pentatonic (five-note) scale is used in virtually every genre worldwide. The <strong style="color:var(--ambl);">minor pentatonic</strong> (G, B♭, C, D, F) gives a blues/rock feel. The <strong style="color:var(--ambl);">major pentatonic</strong> (G, A, B, D, E) gives a brighter country/folk sound.</p>
+    <div class="tab-block">G Minor Pentatonic (open position):
+e |---3---6---|
+B |---3---6---|
+G |---3---5---|
+D |---3---5---|
+A |---3---5---|
+E |---3---6---|
+
+G Major Pentatonic:
+e |---0---2---3---|
+B |---0---2---3---|
+G |---0---2-------|
+D |---0---2-------|
+A |---0---2-------|
+E |---0---2---3---|</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">Memorize the minor pentatonic box shape first — play it over a 12-bar blues and it sounds great every time. The major pentatonic works beautifully in country, folk, and bluegrass for warmer, melodic sounds.</p></div></div>
+
+    <div class="tcrd" id="tc-4"><div class="thead2" onclick="togT('tc-4')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">4. The I–IV–V Progression</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">Three chords, a thousand songs</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">The I–IV–V progression is the foundation of folk, country, and blues. In G: I = G, IV = C, V = D. These three chords create complete harmonic tension and resolution — the backbone of nearly all folk and bluegrass songs.</p>
+    <div class="tab-block">Key of G:  I = G   IV = C   V = D
+Key of D:  I = D   IV = G   V = A
+Key of A:  I = A   IV = D   V = E
+Key of C:  I = C   IV = F   V = G
+Key of E:  I = E   IV = A   V = B
+
+Simple Folk Progression in G:
+| G | G | C | G |
+| G | D | G | D |
+
+Repeat and you have hundreds of folk songs!</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">The V chord creates tension that "wants" to resolve back to the I chord — the fundamental principle of Western harmony. In bluegrass, the I–IV–V is played at high speed and forms the basis of songs like "Foggy Mountain Breakdown."</p></div></div>
+
+    <div class="tcrd" id="tc-5"><div class="thead2" onclick="togT('tc-5')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">5. Key Signatures for Folk</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">The most common keys in the tradition</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">Folk, bluegrass, and blues favor certain keys because they work well with the open strings of guitar and banjo. These are the keys you'll encounter most at jams and sessions:</p>
+    <div class="tab-block">Key of G  -- 1 sharp (F#)        -- Most common bluegrass key
+Key of D  -- 2 sharps (F#,C#)    -- Common for fiddle tunes
+Key of A  -- 3 sharps (F#,C#,G#) -- Great for slide guitar
+Key of E  -- 4 sharps             -- Strong blues key
+Key of C  -- No sharps/flats      -- Easy for beginners
+Key of Am -- Same as C major      -- Folk ballads &amp; minor songs
+
+Capo Tip: Using a capo lets you play G shapes in any key!
+Capo 2 = A, Capo 5 = C, Capo 7 = D</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">At bluegrass jams, G is king. Most songs are called in G, D, or A. The banjo and fiddle particularly favor G and D because the open strings ring beautifully in those keys. Learn G first, then D, and you can participate in most sessions.</p></div></div>
+
+    <div class="tcrd" id="tc-6"><div class="thead2" onclick="togT('tc-6')"><div><div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cr);">6. Reading Tablature (Tab)</div><div style="color:var(--crd);font-size:.88rem;margin-top:.2rem;">The shorthand of folk musicians</div></div><span class="chev">⌄</span></div>
+    <div class="tbody2"><p style="margin-bottom:1rem;">Tablature (tab) is a simplified notation system for fretted instruments. Unlike standard notation, you don't need to read music — it directly shows you where to put your fingers.</p>
+    <div class="tab-block">HOW TO READ GUITAR TAB:
+Each line  = one string (top = highest, bottom = lowest)
+Numbers    = fret number (0 = open, x = don't play)
+Left-right = notes in time order
+Stacked    = play notes together (chord)
+
+e |---0---2---3------|
+B |---0---3---3------|
+G |---0---2---0------|
+D |---0---0---0------|
+A |---x---x---2------|
+E |---x---x---3------|
+       Em   D    G
+
+Symbols:
+  h = hammer-on   p = pull-off
+  b = bend        ~ = vibrato
+  / = slide up    \ = slide down</div>
+    <p style="margin-top:1rem;color:var(--crd);font-size:.95rem;">Tab doesn't show rhythm perfectly, but shows exactly where to fret. Listen to the song and use tab as a finger-placement map. You'll quickly develop timing intuition from the music itself.</p></div></div>
+
+    <div style="margin-top:2.5rem;text-align:center;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--ambl);margin-bottom:.4rem;">The Circle of Fifths</h3>
+      <p style="color:var(--crd);font-size:.95rem;font-style:italic;margin-bottom:1.5rem;">Gold-highlighted keys are most used in folk, blues &amp; bluegrass</p>
+      <div class="cof-c">
+        <svg viewBox="0 0 400 400" width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="bg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2c1810"/><stop offset="100%" stop-color="#1a0f0a"/></radialGradient></defs>
+          <circle cx="200" cy="200" r="198" fill="url(#bg)" stroke="#a07810" stroke-width="1.5"/>
+          <path d="M200,200 L200,5 A195,195 0 0,1 295.7,52.3 Z" fill="#2e1a08" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="228" y="34" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">C</text>
+          <path d="M200,200 L295.7,52.3 A195,195 0 0,1 347.7,102.3 Z" fill="#3a2010" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="320" y="72" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">G</text>
+          <path d="M200,200 L347.7,102.3 A195,195 0 0,1 395,200 Z" fill="#2e1a08" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="372" y="162" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">D</text>
+          <path d="M200,200 L395,200 A195,195 0 0,1 347.7,297.7 Z" fill="#3a2010" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="372" y="248" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">A</text>
+          <path d="M200,200 L347.7,297.7 A195,195 0 0,1 295.7,347.7 Z" fill="#2e1a08" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="323" y="338" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">E</text>
+          <path d="M200,200 L295.7,347.7 A195,195 0 0,1 200,395 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="258" y="383" fill="#7a5020" font-family="Georgia,serif" font-size="15" text-anchor="middle">B</text>
+          <path d="M200,200 L200,395 A195,195 0 0,1 104.3,347.7 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="145" y="383" fill="#7a5020" font-family="Georgia,serif" font-size="14" text-anchor="middle">Gb</text>
+          <path d="M200,200 L104.3,347.7 A195,195 0 0,1 52.3,297.7 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="80" y="338" fill="#7a5020" font-family="Georgia,serif" font-size="14" text-anchor="middle">Db</text>
+          <path d="M200,200 L52.3,297.7 A195,195 0 0,1 5,200 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="28" y="248" fill="#7a5020" font-family="Georgia,serif" font-size="14" text-anchor="middle">Ab</text>
+          <path d="M200,200 L5,200 A195,195 0 0,1 52.3,102.3 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="28" y="162" fill="#7a5020" font-family="Georgia,serif" font-size="14" text-anchor="middle">Eb</text>
+          <path d="M200,200 L52.3,102.3 A195,195 0 0,1 104.3,52.3 Z" fill="#1e100a" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="80" y="72" fill="#7a5020" font-family="Georgia,serif" font-size="14" text-anchor="middle">Bb</text>
+          <path d="M200,200 L104.3,52.3 A195,195 0 0,1 200,5 Z" fill="#3a2010" stroke="#3d2218" stroke-width="0.8"/>
+          <text x="172" y="34" fill="#e8b84b" font-family="Georgia,serif" font-size="17" font-weight="bold" text-anchor="middle">F</text>
+          <circle cx="200" cy="200" r="102" fill="#1a0f0a" stroke="#a07810" stroke-width="1"/>
+          <circle cx="200" cy="200" r="70" fill="#0d0704" stroke="#3d2218" stroke-width="1"/>
+          <text x="200" y="118" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Am</text>
+          <text x="254" y="137" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Em</text>
+          <text x="280" y="182" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Bm</text>
+          <text x="268" y="232" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">F#m</text>
+          <text x="232" y="268" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">C#m</text>
+          <text x="184" y="282" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">G#m</text>
+          <text x="140" y="268" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Ebm</text>
+          <text x="120" y="232" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Bbm</text>
+          <text x="120" y="182" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Fm</text>
+          <text x="140" y="148" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Cm</text>
+          <text x="184" y="122" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Gm</text>
+          <text x="224" y="116" fill="#7a5020" font-family="Georgia,serif" font-size="11" text-anchor="middle">Dm</text>
+          <text x="200" y="194" fill="#d4a017" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-style="italic">Circle of</text>
+          <text x="200" y="210" fill="#d4a017" font-family="Georgia,serif" font-size="11" text-anchor="middle" font-style="italic">Fifths</text>
+          <rect x="20" y="8" width="10" height="10" fill="#d4a017" opacity="0.55" rx="2"/>
+          <text x="35" y="18" fill="#c9b48e" font-family="Georgia,serif" font-size="10">= Folk/Blues keys</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-chords">
+  <div style="max-width:1100px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Chord Library</h2>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+      <button class="fbtn active" onclick="filtC('all',this)">All</button>
+      <button class="fbtn" onclick="filtC('guitar',this)">🎸 Guitar</button>
+      <button class="fbtn" onclick="filtC('banjo',this)">🪘 Banjo</button>
+      <button class="fbtn" onclick="filtC('mandolin',this)">🪕 Mandolin</button>
+    </div>
+    <div id="cc-guitar">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ambd);margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,.15);padding-bottom:.5rem;">🎸 Guitar Chords</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem;">
+        <div class="chord-card"><div class="chord-name">G</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">G Major</div><div class="chord-diag">e |--3--|
+B |--3--|
+G |--0--|
+D |--0--|
+A |--2--|
+E |--3--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Fingers: 2-3-4 or 2-3-4-1</div></div>
+        <div class="chord-card"><div class="chord-name">D</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">D Major</div><div class="chord-diag">e |--2--|
+B |--3--|
+G |--2--|
+D |--0--|
+A |--x--|
+E |--x--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Strum strings 4-1 only</div></div>
+        <div class="chord-card"><div class="chord-name">C</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">C Major</div><div class="chord-diag">e |--0--|
+B |--1--|
+G |--0--|
+D |--2--|
+A |--3--|
+E |--x--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Skip the low E string</div></div>
+        <div class="chord-card"><div class="chord-name">Am</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">A Minor</div><div class="chord-diag">e |--0--|
+B |--1--|
+G |--2--|
+D |--2--|
+A |--0--|
+E |--x--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Soulful, minor feel</div></div>
+        <div class="chord-card"><div class="chord-name">Em</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">E Minor</div><div class="chord-diag">e |--0--|
+B |--0--|
+G |--0--|
+D |--2--|
+A |--2--|
+E |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">All 6 strings, full sound</div></div>
+        <div class="chord-card"><div class="chord-name">E7</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">E Dominant 7th</div><div class="chord-diag">e |--0--|
+B |--3--|
+G |--1--|
+D |--2--|
+A |--2--|
+E |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Blues essential</div></div>
+        <div class="chord-card"><div class="chord-name">F</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">F Major (Barre)</div><div class="chord-diag">e |--1--|
+B |--1--|
+G |--2--|
+D |--3--|
+A |--3--|
+E |--1--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Index bars all 6 strings</div></div>
+        <div class="chord-card"><div class="chord-name">G7</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">G Dominant 7th</div><div class="chord-diag">e |--1--|
+B |--0--|
+G |--0--|
+D |--0--|
+A |--2--|
+E |--3--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Leads back to C nicely</div></div>
+      </div>
+    </div>
+    <div id="cc-banjo">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ambd);margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,.15);padding-bottom:.5rem;">🪘 Banjo Chords (5-string, Open G: gDGBD)</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem;">
+        <div class="chord-card"><div class="chord-name">G</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">G Major</div><div class="chord-diag">g |--0--|
+D |--0--|
+G |--0--|
+B |--0--|
+D |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">All open! Natural key</div></div>
+        <div class="chord-card"><div class="chord-name">D</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">D Major</div><div class="chord-diag">g |--0--|
+D |--4--|
+G |--4--|
+B |--3--|
+D |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">V chord in key of G</div></div>
+        <div class="chord-card"><div class="chord-name">C</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">C Major</div><div class="chord-diag">g |--0--|
+D |--2--|
+G |--0--|
+B |--1--|
+D |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">IV chord in key of G</div></div>
+        <div class="chord-card"><div class="chord-name">Em</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">E Minor</div><div class="chord-diag">g |--0--|
+D |--2--|
+G |--0--|
+B |--0--|
+D |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Relative minor of G</div></div>
+        <div class="chord-card"><div class="chord-name">Am</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">A Minor</div><div class="chord-diag">g |--0--|
+D |--2--|
+G |--2--|
+B |--1--|
+D |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Minor feel, old-time</div></div>
+        <div class="chord-card"><div class="chord-name">F</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">F Major</div><div class="chord-diag">g |--0--|
+D |--3--|
+G |--2--|
+B |--1--|
+D |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Challenging, rewarding</div></div>
+      </div>
+    </div>
+    <div id="cc-mandolin">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ambd);margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,.15);padding-bottom:.5rem;">🪕 Mandolin Chords (Tuning: GDAE)</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2rem;">
+        <div class="chord-card"><div class="chord-name">G</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">G Major</div><div class="chord-diag">e |--0--|
+A |--0--|
+D |--0--|
+G |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Open G — all strings</div></div>
+        <div class="chord-card"><div class="chord-name">D</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">D Major</div><div class="chord-diag">e |--2--|
+A |--3--|
+D |--4--|
+G |--4--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Great chop chord</div></div>
+        <div class="chord-card"><div class="chord-name">A</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">A Major</div><div class="chord-diag">e |--0--|
+A |--0--|
+D |--2--|
+G |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Common jam chord</div></div>
+        <div class="chord-card"><div class="chord-name">Em</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">E Minor</div><div class="chord-diag">e |--0--|
+A |--2--|
+D |--2--|
+G |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Dark, soulful minor</div></div>
+        <div class="chord-card"><div class="chord-name">C</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">C Major</div><div class="chord-diag">e |--3--|
+A |--3--|
+D |--2--|
+G |--2--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">IV in key of G</div></div>
+        <div class="chord-card"><div class="chord-name">Am</div><div style="font-size:.78rem;color:var(--crd);margin-bottom:.5rem;font-style:italic;">A Minor</div><div class="chord-diag">e |--0--|
+A |--0--|
+D |--2--|
+G |--0--|</div><div style="font-size:.8rem;color:var(--crd);margin-top:.5rem;">Folk ballad staple</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-tracker">
+  <div style="max-width:900px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Practice Tracker</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:2rem;">Consistency is the only secret. Track your practice and watch yourself grow.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;">
+      <div class="streak-box">
+        <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ambd);margin-bottom:.5rem;">Current Streak</div>
+        <div class="streak-num" id="streakN">0</div>
+        <div style="color:var(--crd);font-size:.9rem;margin-top:.3rem;">days in a row 🔥</div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(212,160,23,.15);">
+          <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.3rem;">This Week</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--amb);"><span id="weekM">0</span> min</div>
+          <div style="color:var(--crd);font-size:.85rem;">of <span id="goalD">30</span> min/day goal</div>
+        </div>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <div style="font-family:'Special Elite',monospace;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:1rem;">Daily Goal</div>
+        <div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem;">
+          <input type="number" id="goalInp" class="tinput" value="30" min="5" max="240" style="width:90px;">
+          <span style="color:var(--crd);font-size:.9rem;">minutes per day</span>
+        </div>
+        <button class="btn-gold" onclick="setGoal()">Set Goal</button>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(212,160,23,.15);">
+          <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.3rem;">All-Time Total</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--amb);"><span id="totalM">0</span> min</div>
+          <div style="color:var(--crd);font-size:.85rem;">across <span id="totalS">0</span> sessions</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METRONOME REFERENCE CARD -->
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:.3rem;">🥁 Metronome &amp; Tempo Reference</h3>
+      <p style="color:var(--crd);font-size:.88rem;font-style:italic;margin-bottom:1rem;">Common tempos in folk, blues &amp; bluegrass. Always start slower than you think you need to.</p>
+      <table class="bpm-table">
+        <thead><tr><th>Style</th><th>BPM Range</th><th>Feel &amp; Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Slow Blues / Ballad</td><td><span class="bpm-num">50–70</span></td><td>Deep, expressive — room for every bend and slide</td></tr>
+          <tr><td>Moderate Blues</td><td><span class="bpm-num">70–90</span></td><td>Walking pace; most classic 12-bar blues sits here</td></tr>
+          <tr><td>Folk Ballad / Waltz</td><td><span class="bpm-num">80–100</span></td><td>Gentle 4/4 or 3/4; great for fingerpicking practice</td></tr>
+          <tr><td>Country / Up-tempo Folk</td><td><span class="bpm-num">100–120</span></td><td>Driving rhythm; chord changes must be second nature</td></tr>
+          <tr><td>Bluegrass (moderate)</td><td><span class="bpm-num">120–150</span></td><td>Real jam speed — builds over weeks, not days</td></tr>
+          <tr><td>Bluegrass (fast)</td><td><span class="bpm-num">150–180</span></td><td>"Ripping" tempo — rolls and scales must be automatic</td></tr>
+          <tr><td>Competition Bluegrass</td><td><span class="bpm-num">180+</span></td><td>Elite festival speed; years of dedicated practice</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:1rem;padding:.7rem 1rem;background:rgba(212,160,23,.06);border-left:3px solid var(--ambd);border-radius:0 5px 5px 0;font-size:.88rem;color:var(--crd);font-style:italic;">
+        💡 <strong style="color:var(--ambl);">Golden Rule:</strong> Practice at the speed where you make <em>zero</em> mistakes. Speed increases naturally when accuracy is mastered.
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:1rem;">Log a Practice Session</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1rem;">
+        <div><label class="slbl">Instrument</label><select class="tinput" id="sInstr"><option>Guitar</option><option>Banjo</option><option>Mandolin</option><option>Violin</option><option>Bass</option><option>Ukulele</option></select></div>
+        <div><label class="slbl">Topic / Song</label><input type="text" class="tinput" id="sTopic" placeholder="e.g. G chord, Travis picking…"></div>
+        <div><label class="slbl">Duration (minutes)</label><input type="number" class="tinput" id="sDur" value="20" min="1" max="480"></div>
+      </div>
+      <button class="btn-gold" onclick="logSess()">Log Session</button>
+      <span id="logMsg" style="margin-left:1rem;color:#90d090;font-size:.9rem;font-style:italic;"></span>
+    </div>
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);">Recent Sessions</h3>
+        <button class="btn-out" onclick="clearLog()" style="font-size:.7rem;">Clear All</button>
+      </div>
+      <div id="sessLog"><div style="color:var(--crd);font-style:italic;font-size:.95rem;text-align:center;padding:1.5rem;">No sessions logged yet. Start practicing!</div></div>
+    </div>
+    <div class="card" style="padding:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:1rem;">Suggested Daily Routines</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;">
+        <div>
+          <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.5rem;">🌿 Beginner (20–30 min)</div>
+          <div class="rsec">
+            <div class="ri">5 min: Warm up / gentle stretching</div>
+            <div class="ri">10 min: Practice open chords (G, D, C)</div>
+            <div class="ri">5 min: Slow chord transitions</div>
+            <div class="ri">5 min: Strum along to a simple song</div>
+            <div class="ri">5 min: Review lesson notes</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.5rem;">🌿 Intermediate (45–60 min)</div>
+          <div class="rsec">
+            <div class="ri">5 min: Scales (major / pentatonic)</div>
+            <div class="ri">10 min: Technical exercises</div>
+            <div class="ri">15 min: Learn new song or lick</div>
+            <div class="ri">10 min: Improvise over backing track</div>
+            <div class="ri">10 min: Slow review of trouble spots</div>
+            <div class="ri">5 min: Play something you love for fun</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.5rem;">🌿 Advanced (60–90 min)</div>
+          <div class="rsec">
+            <div class="ri">10 min: Technique drills (speed/accuracy)</div>
+            <div class="ri">15 min: New repertoire / hard passages</div>
+            <div class="ri">15 min: Ear training / transcription</div>
+            <div class="ri">20 min: Full song run-throughs</div>
+            <div class="ri">15 min: Improvisation / composition</div>
+            <div class="ri">5 min: Wind-down / reflect on session</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-artists">
+  <div style="max-width:1100px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">The Legends</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:2rem;">The artists who shaped folk, blues, and bluegrass — whose music echoes through every lesson in this app.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;">
+
+      <div class="artist-card ac-mandolin"><div class="ava">🪕</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Bill Monroe</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Mandolin · Bluegrass</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The "Father of Bluegrass." Monroe invented the genre by blending Appalachian old-time music with blues and jazz. His driving mandolin style and high lonesome vocal sound defined bluegrass forever. His Blue Grass Boys launched the careers of Earl Scruggs and Lester Flatt.</div>
+        <a href="https://www.youtube.com/results?search_query=Bill+Monroe+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-mandolin"><div class="ava">🪕</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Chris Thile</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Mandolin · Newgrass / Classical</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The modern mandolin virtuoso. Thile began with Nickel Creek, pushing the boundaries of acoustic music. His solo work and Punch Brothers prove the mandolin can handle Bach sonatas, jazz improvisation, and pop songwriting equally. A once-in-a-generation talent.</div>
+        <a href="https://www.youtube.com/results?search_query=Chris+Thile+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-banjo"><div class="ava">🪘</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Earl Scruggs</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Banjo · Bluegrass</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The man who invented 3-finger banjo style. Before Scruggs, banjo was played in the clawhammer style. His revolutionary right-hand technique — now called Scruggs style — defined the sound of bluegrass and put the banjo on the world stage. "Foggy Mountain Breakdown" is his masterpiece.</div>
+        <a href="https://www.youtube.com/results?search_query=Earl+Scruggs+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-banjo"><div class="ava">🪘</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Béla Fleck</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Banjo · Jazz / World / Classical</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">Béla Fleck took the banjo where no instrument had gone before — into jazz, classical orchestras, and African rhythms. With the Flecktones, he created an entirely new genre. He has won Grammy Awards in more categories than any other musician, proving the banjo's limitless range.</div>
+        <a href="https://www.youtube.com/results?search_query=Bela+Fleck+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-guitar"><div class="ava">🎸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Doc Watson</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Guitar · Folk / Flatpicking</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The blind guitarist from Deep Gap, NC, who virtually invented flatpicking as a lead guitar style. Watson could play fiddle tunes at breakneck speed with dazzling precision. His warm voice and encyclopedic knowledge of traditional American music make him a national treasure.</div>
+        <a href="https://www.youtube.com/results?search_query=Doc+Watson+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-guitar"><div class="ava">🎸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Robert Johnson</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Guitar · Delta Blues</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The mythic Delta blues guitarist who — legend says — sold his soul at the crossroads. Johnson recorded only 29 songs, but they became the blueprint for all rock and blues. His complex guitar style, playing bass lines and melody simultaneously, influenced everyone from Clapton to Richards.</div>
+        <a href="https://www.youtube.com/results?search_query=Robert+Johnson+blues+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-banjo"><div class="ava">🪘</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Pete Seeger</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Banjo · Folk Revival</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The folk icon who kept American traditional music alive through the mid-20th century. Seeger's activism and music were inseparable — "We Shall Overcome" and "Where Have All the Flowers Gone?" became civil rights anthems. He wrote the definitive guide to banjo playing.</div>
+        <a href="https://www.youtube.com/results?search_query=Pete+Seeger+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+      <div class="artist-card ac-guitar"><div class="ava">🎸</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cr);margin-bottom:.1rem;">Clarence White</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amb);margin-bottom:.6rem;">Guitar · Flatpicking / Country Rock</div>
+        <div style="font-size:.95rem;color:var(--crd);line-height:1.5;flex:1;">The flatpicking master who bridged traditional country and rock. White's Kentucky Colonels work set a new standard for acoustic guitar. His revolutionary B-Bender device let him mimic pedal steel bends on his Telecaster, creating a whole new style of country guitar that influenced the entire genre.</div>
+        <a href="https://www.youtube.com/results?search_query=Clarence+White+music" target="_blank" class="yt-btn">▶ Search on YouTube</a>
+      </div>
+
+    </div>
+    <div style="text-align:center;color:var(--ambd);font-size:1.2rem;letter-spacing:.4em;margin:3rem 0 1rem;opacity:.7;">✦</div>
+    <p style="text-align:center;color:var(--crd);font-style:italic;font-size:.95rem;margin-top:1rem;">"The musicians who came before us left behind the greatest gift — their music.<br>Our job is to learn it, love it, and pass it on."</p>
+  </div>
+</div>
+
+<div class="page" id="page-songs">
+  <div style="max-width:1100px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Song Library</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:1.5rem;">A curated collection of beginner-friendly folk, blues &amp; bluegrass songs. Each entry shows the key, difficulty, and chords you need to know.</p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+      <button class="fbtn active" onclick="filtS('all',this)">All Songs</button>
+      <button class="fbtn" onclick="filtS('guitar',this)">🎸 Guitar</button>
+      <button class="fbtn" onclick="filtS('banjo',this)">🪘 Banjo</button>
+      <button class="fbtn" onclick="filtS('mandolin',this)">🪕 Mandolin</button>
+      <button class="fbtn" onclick="filtS('multi',this)">🎶 Multi-Instrument</button>
+    </div>
+
+    <div id="ss-guitar">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc-guitar);margin-bottom:1rem;border-bottom:1px solid rgba(196,94,56,.25);padding-bottom:.5rem;">🎸 Guitar Songs</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
+<div class="song-card sc-guitar">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of D</span></div>
+  <div class="song-title">Wagon Wheel</div>
+  <div class="song-artist">Old Crow Medicine Show / Darius Rucker</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">D</span><span class="chord-pill">G</span><span class="chord-pill">Am</span><span class="chord-pill">C</span></div>
+  <div class="song-note">One of the most beloved campfire sing-alongs ever written. Four simple chords and an unforgettable chorus.</div>
+</div>
+<div class="song-card sc-guitar">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of Am</span></div>
+  <div class="song-title">House of the Rising Sun</div>
+  <div class="song-artist">Traditional (made famous by The Animals)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">Am</span><span class="chord-pill">C</span><span class="chord-pill">D</span><span class="chord-pill">F</span><span class="chord-pill">E</span></div>
+  <div class="song-note">A haunting minor key classic. The fingerpicked arpeggio pattern is a foundational exercise every guitarist should learn.</div>
+</div>
+<div class="song-card sc-guitar">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Man of Constant Sorrow</div>
+  <div class="song-artist">Traditional (Appalachian)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">D</span><span class="chord-pill">C</span></div>
+  <div class="song-note">An ancient Appalachian classic made famous by O Brother, Where Art Thou? Pure I–IV–V in the key of G.</div>
+</div>
+<div class="song-card sc-guitar">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Will the Circle Be Unbroken</div>
+  <div class="song-artist">Traditional / Carter Family</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">C</span><span class="chord-pill">D</span></div>
+  <div class="song-note">The quintessential old-time community song. Three chords, a waltz-like feel, and infinite sing-along power.</div>
+</div>
+<div class="song-card sc-guitar">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">On Top of Old Smoky</div>
+  <div class="song-artist">Traditional (Appalachian)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">C</span><span class="chord-pill">D</span></div>
+  <div class="song-note">A gentle 3/4 waltz, perfect for beginners learning to strum in triple time. Sweet melody, easy changes.</div>
+</div>
+      </div>
+    </div>
+
+    <div id="ss-banjo">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc-banjo);margin-bottom:1rem;border-bottom:1px solid rgba(200,168,32,.25);padding-bottom:.5rem;">🪘 Banjo Songs</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
+<div class="song-card sc-banjo">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Cripple Creek</div>
+  <div class="song-artist">Traditional (Old-Time / Bluegrass)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">D</span></div>
+  <div class="song-note">The first tune most bluegrass banjoists learn. Entirely in the G major scale and perfect for practicing forward rolls.</div>
+</div>
+<div class="song-card sc-banjo">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Rocky Top</div>
+  <div class="song-artist">Felice &amp; Boudleaux Bryant</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">C</span><span class="chord-pill">D</span><span class="chord-pill">Am</span></div>
+  <div class="song-note">Tennessee's beloved anthem. Driving bluegrass feel with a memorable, accessible melody great for roll practice.</div>
+</div>
+<div class="song-card sc-banjo">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of A</span></div>
+  <div class="song-title">Old Joe Clark</div>
+  <div class="song-artist">Traditional (Appalachian)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">A</span><span class="chord-pill">G</span></div>
+  <div class="song-note">A high-energy fiddle tune that translates beautifully to banjo. Modal feel and driving rhythm make it a jam session staple.</div>
+</div>
+      </div>
+    </div>
+
+    <div id="ss-mandolin">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc-mandolin);margin-bottom:1rem;border-bottom:1px solid rgba(74,158,181,.25);padding-bottom:.5rem;">🪕 Mandolin Songs</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2.5rem;">
+<div class="song-card sc-mandolin">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Blackberry Blossom</div>
+  <div class="song-artist">Traditional (Bluegrass Standard)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">D</span><span class="chord-pill">C</span><span class="chord-pill">Am</span></div>
+  <div class="song-note">One of the most beloved bluegrass instrumentals. Great for developing left-hand independence and chord-melody interplay.</div>
+</div>
+<div class="song-card sc-mandolin">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of D</span></div>
+  <div class="song-title">Whiskey Before Breakfast</div>
+  <div class="song-artist">Traditional (Fiddle Tune)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">D</span><span class="chord-pill">G</span><span class="chord-pill">A</span></div>
+  <div class="song-note">A flowing D-major fiddle tune that sits beautifully on the mandolin. Smooth melody and clean chord changes.</div>
+</div>
+<div class="song-card sc-mandolin">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of A</span></div>
+  <div class="song-title">Salt Creek</div>
+  <div class="song-artist">Traditional (Bill Monroe)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">A</span><span class="chord-pill">D</span><span class="chord-pill">E</span></div>
+  <div class="song-note">A driving A-major tune that showcases the mandolin's bright tone. Challenging at speed but incredibly satisfying to master.</div>
+</div>
+      </div>
+    </div>
+
+    <div id="ss-multi">
+      <h3 style="font-family:'Special Elite',monospace;font-size:.82rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ambd);margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,.2);padding-bottom:.5rem;">🎶 Multi-Instrument Songs</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;">
+<div class="song-card sc-multi">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bint">Intermediate</span><span class="key-badge">Key of Am</span></div>
+  <div class="song-title">Shady Grove</div>
+  <div class="song-artist">Traditional (Appalachian)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">Am</span><span class="chord-pill">G</span></div>
+  <div class="song-note">An ancient modal melody that sounds incredible on any acoustic instrument. Minor feel with a haunting, timeless quality.</div>
+</div>
+<div class="song-card sc-multi">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Nine Pound Hammer</div>
+  <div class="song-artist">Traditional / Merle Travis</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">C</span><span class="chord-pill">D</span></div>
+  <div class="song-note">A working-class anthem and open-jam staple. The I–IV–V in its purest form — sounds great on guitar, banjo, or mandolin.</div>
+</div>
+<div class="song-card sc-multi">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of D</span></div>
+  <div class="song-title">Angeline the Baker</div>
+  <div class="song-artist">Traditional (Stephen Foster)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">D</span><span class="chord-pill">G</span></div>
+  <div class="song-note">A cheerful, two-chord melody used at countless jam sessions. Perfect for practicing clean chord transitions at tempo.</div>
+</div>
+<div class="song-card sc-multi">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin-bottom:.5rem;"><span class="badge bbeg">Beginner</span><span class="key-badge">Key of G</span></div>
+  <div class="song-title">Midnight Special</div>
+  <div class="song-artist">Traditional (Lead Belly)</div>
+  <div style="margin-top:.5rem;"><span class="chord-pill">G</span><span class="chord-pill">C</span><span class="chord-pill">D</span></div>
+  <div class="song-note">Lead Belly's signature song. Shuffling groove makes it wonderful for learning basic strumming patterns and rhythm feel.</div>
+</div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(212,160,23,.06),rgba(160,120,16,.08));border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:1.5rem;text-align:center;margin-top:1rem;">
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.4rem;">Ready to learn these songs?</div>
+      <p style="color:var(--crd);font-size:.95rem;margin-bottom:1rem;font-style:italic;">Head to the Chord Library for fingering diagrams, then track your practice sessions.</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-gold" onclick="showPage('chords')">Open Chord Library</button>
+        <button class="btn-out" onclick="showPage('tracker')">Log a Practice</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-tuner">
+  <div style="max-width:900px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Tuner &amp; Reference Guide</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:2rem;">A visual reference for standard and alternate tunings, capo positions, and instrument-specific tuning guides. No audio — use a chromatic tuner app for real-time tuning.</p>
+
+    <!-- STANDARD GUITAR TUNING -->
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:.3rem;">🎸 Standard Guitar Tuning (E–A–D–G–B–E)</h3>
+      <p style="color:var(--crd);font-size:.88rem;font-style:italic;margin-bottom:1.2rem;">Strings numbered 6 (lowest/thickest) to 1 (highest/thinnest). Hover over each for more info.</p>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1rem;">
+        <div class="string-btn" title="6th string - lowest pitch, thickest gauge">
+          <div class="string-note">E</div>
+          <div class="string-name">6th String</div>
+          <div class="string-freq">82.4 Hz</div>
+        </div>
+        <div class="string-btn" title="5th string">
+          <div class="string-note">A</div>
+          <div class="string-name">5th String</div>
+          <div class="string-freq">110 Hz</div>
+        </div>
+        <div class="string-btn" title="4th string">
+          <div class="string-note">D</div>
+          <div class="string-name">4th String</div>
+          <div class="string-freq">146.8 Hz</div>
+        </div>
+        <div class="string-btn" title="3rd string">
+          <div class="string-note">G</div>
+          <div class="string-name">3rd String</div>
+          <div class="string-freq">196 Hz</div>
+        </div>
+        <div class="string-btn" title="2nd string">
+          <div class="string-note">B</div>
+          <div class="string-name">2nd String</div>
+          <div class="string-freq">246.9 Hz</div>
+        </div>
+        <div class="string-btn" title="1st string - highest pitch, thinnest gauge">
+          <div class="string-note">E</div>
+          <div class="string-name">1st String</div>
+          <div class="string-freq">329.6 Hz</div>
+        </div>
+      </div>
+      <div style="background:rgba(0,0,0,.2);border-radius:6px;padding:.8rem 1rem;font-family:'Courier New',monospace;font-size:.9rem;color:#b8e0b0;text-align:center;letter-spacing:.12em;">
+        E –– A –– D –– G –– B –– E
+      </div>
+      <div style="margin-top:.8rem;font-size:.88rem;color:var(--crd);font-style:italic;">
+        <strong style="color:var(--ambl);">Memory Aid:</strong> "Eddie Ate Dynamite, Good Bye Eddie" — the classic mnemonic for guitar string order.
+      </div>
+    </div>
+
+    <!-- ALTERNATE TUNINGS -->
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:.3rem;">🔄 Alternate Tunings</h3>
+      <p style="color:var(--crd);font-size:.88rem;font-style:italic;margin-bottom:1.2rem;">These tunings open up new chord voicings and resonant sounds beloved in folk, blues, and slide guitar.</p>
+      <table class="tuning-table">
+        <thead><tr><th>Tuning Name</th><th>String Notes (6→1)</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Standard</td>
+            <td><span class="tuning-mono">E A D G B E</span></td>
+            <td>Everything — the default starting point</td>
+          </tr>
+          <tr>
+            <td>Drop D</td>
+            <td><span class="tuning-mono">D A D G B E</span></td>
+            <td>Heavy rhythm; easy power chords on low strings</td>
+          </tr>
+          <tr>
+            <td>Open G</td>
+            <td><span class="tuning-mono">D G D G B D</span></td>
+            <td>Slide guitar, blues; Keith Richards' signature tuning</td>
+          </tr>
+          <tr>
+            <td>Open D</td>
+            <td><span class="tuning-mono">D A D F# A D</span></td>
+            <td>Delta blues slide; rich resonant D major drone</td>
+          </tr>
+          <tr>
+            <td>Open E</td>
+            <td><span class="tuning-mono">E B E G# B E</span></td>
+            <td>Slide guitar; great for Duane Allman style playing</td>
+          </tr>
+          <tr>
+            <td>DADGAD</td>
+            <td><span class="tuning-mono">D A D G A D</span></td>
+            <td>Celtic / folk; beautiful suspended sound, used by Jimmy Page</td>
+          </tr>
+          <tr>
+            <td>Open A</td>
+            <td><span class="tuning-mono">E A E A C# E</span></td>
+            <td>Blues &amp; country slide; bright and cutting</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:1rem;padding:.7rem 1rem;background:rgba(212,160,23,.06);border-left:3px solid var(--ambd);border-radius:0 5px 5px 0;font-size:.88rem;color:var(--crd);font-style:italic;">
+        ⚠️ <strong style="color:var(--ambl);">Tip:</strong> When changing to Open G or D tuning, detune gradually to avoid string breakage. Always retune to standard before putting the guitar away for long periods.
+      </div>
+    </div>
+
+    <!-- CAPO CHART -->
+    <div class="card" style="padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ambl);margin-bottom:.3rem;">🎯 Capo Reference Chart</h3>
+      <p style="color:var(--crd);font-size:.88rem;font-style:italic;margin-bottom:1.2rem;">A capo clamps across all strings, raising the pitch. You keep the same chord <em>shapes</em> but the <em>sound</em> changes key. Essential for matching vocal ranges and simplifying complex key signatures.</p>
+      <div style="overflow-x:auto;">
+        <table class="capo-table">
+          <thead>
+            <tr>
+              <th>Capo Fret</th>
+              <th>G shape sounds like</th>
+              <th>C shape sounds like</th>
+              <th>D shape sounds like</th>
+              <th>E shape sounds like</th>
+              <th>A shape sounds like</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="capo-pos">Open</span></td><td><span class="capo-key">G</span></td><td><span class="capo-key">C</span></td><td><span class="capo-key">D</span></td><td><span class="capo-key">E</span></td><td><span class="capo-key">A</span></td></tr>
+            <tr><td><span class="capo-pos">1</span></td><td><span class="capo-key-dim">Ab</span></td><td><span class="capo-key-dim">Db</span></td><td><span class="capo-key-dim">Eb</span></td><td><span class="capo-key">F</span></td><td><span class="capo-key-dim">Bb</span></td></tr>
+            <tr><td><span class="capo-pos">2</span></td><td><span class="capo-key">A</span></td><td><span class="capo-key">D</span></td><td><span class="capo-key">E</span></td><td><span class="capo-key-dim">F#</span></td><td><span class="capo-key">B</span></td></tr>
+            <tr><td><span class="capo-pos">3</span></td><td><span class="capo-key-dim">Bb</span></td><td><span class="capo-key-dim">Eb</span></td><td><span class="capo-key">F</span></td><td><span class="capo-key">G</span></td><td><span class="capo-key">C</span></td></tr>
+            <tr><td><span class="capo-pos">4</span></td><td><span class="capo-key">B</span></td><td><span class="capo-key">E</span></td><td><span class="capo-key-dim">F#</span></td><td><span class="capo-key-dim">Ab</span></td><td><span class="capo-key-dim">Db</span></td></tr>
+            <tr><td><span class="capo-pos">5</span></td><td><span class="capo-key">C</span></td><td><span class="capo-key">F</span></td><td><span class="capo-key">G</span></td><td><span class="capo-key">A</span></td><td><span class="capo-key">D</span></td></tr>
+            <tr><td><span class="capo-pos">7</span></td><td><span class="capo-key">D</span></td><td><span class="capo-key">G</span></td><td><span class="capo-key">A</span></td><td><span class="capo-key">B</span></td><td><span class="capo-key">E</span></td></tr>
+            <tr><td><span class="capo-pos">9</span></td><td><span class="capo-key">E</span></td><td><span class="capo-key">A</span></td><td><span class="capo-key">B</span></td><td><span class="capo-key-dim">Db</span></td><td><span class="capo-key-dim">F#</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:1rem;font-size:.88rem;color:var(--crd);font-style:italic;">
+        <strong style="color:var(--ambl);">Common Use:</strong> Playing in C? Put capo on fret 5 and use G chord shapes. Playing in A? Put capo on fret 2 and use G shapes. The gold keys above are the most common in folk &amp; bluegrass.
+      </div>
+    </div>
+
+    <!-- BANJO + MANDOLIN REFERENCE -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;">
+      <div class="card" style="padding:1.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">🪘 5-String Banjo Tuning</h3>
+        <p style="color:var(--crd);font-size:.85rem;font-style:italic;margin-bottom:1rem;">Open G tuning — all strings open ring a G major chord.</p>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-bottom:1rem;">
+          <div class="string-btn" style="font-size:.9rem;padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">g</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">5th (high)</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">D</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">4th</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">G</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">3rd</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">B</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">2nd</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">D</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">1st</div>
+          </div>
+        </div>
+        <div style="font-size:.85rem;color:var(--crd);"><strong style="color:var(--ambl);">Double C Tuning:</strong> <span class="tuning-mono">g C G C D</span> — used for old-time tunes<br><strong style="color:var(--ambl);">Open D Tuning:</strong> <span class="tuning-mono">f# D F# A D</span> — rare, used by some folk players</div>
+      </div>
+
+      <div class="card" style="padding:1.5rem;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ambl);margin-bottom:.3rem;">🪕 Mandolin Tuning</h3>
+        <p style="color:var(--crd);font-size:.85rem;font-style:italic;margin-bottom:1rem;">GDAE — 4 pairs of strings (courses), each pair tuned in unison. Same as violin.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;">
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">G</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">4th Course</div>
+            <div style="font-size:.75rem;color:var(--crd);margin-top:.1rem;">196 Hz</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">D</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">3rd Course</div>
+            <div style="font-size:.75rem;color:var(--crd);margin-top:.1rem;">293.7 Hz</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">A</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">2nd Course</div>
+            <div style="font-size:.75rem;color:var(--crd);margin-top:.1rem;">440 Hz</div>
+          </div>
+          <div class="string-btn" style="padding:.7rem .4rem;">
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--ambl);">E</div>
+            <div style="font-family:'Special Elite',monospace;font-size:.58rem;color:var(--ambd);margin-top:.3rem;text-transform:uppercase;">1st Course</div>
+            <div style="font-size:.75rem;color:var(--crd);margin-top:.1rem;">659.3 Hz</div>
+          </div>
+        </div>
+        <div style="font-size:.85rem;color:var(--crd);">Each course has <strong style="color:var(--ambl);">two strings</strong> tuned to the same pitch. Tune both strings in each pair to perfect unison — slight imperfections create a pleasing natural chorus effect.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="page" id="page-plans">
+  <div style="max-width:1100px;margin:0 auto;padding:2rem 1.5rem;">
+    <h2 class="shead">Choose Your Plan</h2>
+    <p style="color:var(--crd);font-style:italic;margin-bottom:2rem;">Unlock everything — support independent music education.</p>
+
+    <!-- BILLING TOGGLE -->
+    <div style="display:flex;justify-content:center;gap:.5rem;margin-bottom:2.5rem;">
+      <button class="fbtn active" id="btn-billing-monthly" onclick="setPlanBilling('monthly')">Monthly</button>
+      <button class="fbtn" id="btn-billing-annual" onclick="setPlanBilling('annual')">Annually <span style="color:#90d090;font-size:.7em;">(Save 20%)</span></button>
+    </div>
+
+    <!-- PLAN CARDS GRID -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2.5rem;align-items:stretch;">
+
+      <!-- ── FREE CARD ────────────────────────────────────────────────────── -->
+      <div class="card" style="padding:1.8rem;display:flex;flex-direction:column;">
+        <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Free</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:1rem;">Always Free</div>
+        <div style="margin-bottom:1.2rem;">
+          <div class="price-monthly" style="display:'';">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$0</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ month</span>
+          </div>
+          <div class="price-annual" style="display:none;">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$0</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ year</span>
+          </div>
+        </div>
+        <div style="flex:1;margin-bottom:1.2rem;">
+          <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Includes</div>
+          <div class="ri">Basic guitar, banjo &amp; mandolin lessons</div>
+          <div class="ri">Full chord library with diagrams</div>
+          <div class="ri">Music theory &amp; Circle of Fifths</div>
+          <div class="ri">Beginner song library</div>
+        </div>
+        <button class="btn-out" style="width:100%;text-align:center;" onclick="showPage('lessons')">Start Free</button>
+      </div>
+
+      <!-- ── PICKER CARD (Most Popular) ─────────────────────────────────── -->
+      <div class="card" style="padding:1.8rem;display:flex;flex-direction:column;position:relative;border-color:rgba(212,160,23,.5);box-shadow:0 8px 32px rgba(0,0,0,.5);">
+        <!-- Most Popular badge -->
+        <div style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--amb),var(--ambd));color:var(--mah);font-family:'Special Elite',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem 1rem;border-radius:20px;white-space:nowrap;box-shadow:0 2px 8px rgba(212,160,23,.4);">&#9733; Most Popular</div>
+        <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ambl);margin-bottom:.6rem;margin-top:.4rem;">Picker</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:1rem;">Picker Plan</div>
+        <div style="margin-bottom:1.2rem;">
+          <div class="price-monthly" style="display:'';">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$5</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ month</span>
+          </div>
+          <div class="price-annual" style="display:none;">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$48</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ year <span style="color:#90d090;font-size:.8em;">($4/mo)</span></span>
+          </div>
+        </div>
+        <div style="flex:1;margin-bottom:1.2rem;">
+          <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Everything in Free, plus</div>
+          <div class="ri">All lessons + full song library</div>
+          <div class="ri">Practice tracker with streak &amp; goals</div>
+          <div class="ri">Tuner &amp; capo reference guide</div>
+          <div class="ri">Metronome BPM reference card</div>
+          <div class="ri">New lessons as they&apos;re released</div>
+        </div>
+        <!-- Monthly PayPal form -->
+        <form id="picker-monthly" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — Picker Plan">
+          <input type="hidden" name="a3" value="5.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="M">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;">Subscribe — $5/mo</button>
+        </form>
+        <!-- Annual PayPal form -->
+        <form id="picker-annual" style="display:none;" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — Picker Plan (Annual)">
+          <input type="hidden" name="a3" value="48.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="Y">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;">Subscribe — $48/yr</button>
+        </form>
+      </div>
+
+      <!-- ── FLATPICKER PRO CARD ─────────────────────────────────────────── -->
+      <div class="card" style="padding:1.8rem;display:flex;flex-direction:column;border-color:rgba(212,160,23,.35);box-shadow:0 4px 24px rgba(212,160,23,.12),0 8px 32px rgba(0,0,0,.4);">
+        <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Pro</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--cr);margin-bottom:1rem;">Flatpicker Pro</div>
+        <div style="margin-bottom:1.2rem;">
+          <div class="price-monthly" style="display:'';">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$12</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ month</span>
+          </div>
+          <div class="price-annual" style="display:none;">
+            <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--amb);line-height:1;">$115</span>
+            <span style="color:var(--crd);font-size:.9rem;margin-left:.3rem;">/ year <span style="color:#90d090;font-size:.8em;">($9.58/mo)</span></span>
+          </div>
+        </div>
+        <div style="flex:1;margin-bottom:1.2rem;">
+          <div style="font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ambd);margin-bottom:.6rem;">Everything in Picker, plus</div>
+          <div class="ri">Priority email support</div>
+          <div class="ri">First access to new lessons &amp; instruments</div>
+          <div class="ri">Downloadable PDF chord sheets</div>
+          <div class="ri">Backing track &amp; jam resources</div>
+          <div class="ri">Directly support the creator</div>
+        </div>
+        <!-- Monthly PayPal form -->
+        <form id="pro-monthly" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — Flatpicker Pro">
+          <input type="hidden" name="a3" value="12.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="M">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;background:linear-gradient(135deg,var(--ambl),var(--amb));box-shadow:0 4px 16px rgba(212,160,23,.35);">Subscribe — $12/mo</button>
+        </form>
+        <!-- Annual PayPal form -->
+        <form id="pro-annual" style="display:none;" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick-subscriptions">
+          <input type="hidden" name="business" value="corrickdean8@gmail.com">
+          <input type="hidden" name="item_name" value="Music Madness — Flatpicker Pro (Annual)">
+          <input type="hidden" name="a3" value="115.00">
+          <input type="hidden" name="p3" value="1">
+          <input type="hidden" name="t3" value="Y">
+          <input type="hidden" name="src" value="1">
+          <input type="hidden" name="currency_code" value="USD">
+          <button type="submit" class="btn-gold" style="width:100%;margin-top:.2rem;background:linear-gradient(135deg,var(--ambl),var(--amb));box-shadow:0 4px 16px rgba(212,160,23,.35);">Subscribe — $115/yr</button>
+        </form>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- TRUST STRIP -->
+    <div style="background:linear-gradient(135deg,rgba(212,160,23,.06),rgba(160,120,16,.08));border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:1.4rem 2rem;text-align:center;">
+      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem 2.5rem;">
+        <div style="color:var(--crd);font-size:.92rem;">🔒 <strong style="color:var(--cr);">Secure payments via PayPal</strong> — cancel anytime</div>
+        <div style="color:var(--crd);font-size:.92rem;">✦ <strong style="color:var(--cr);">Any device</strong>, no download required</div>
+        <div style="color:var(--crd);font-size:.92rem;">✉ Questions? <a href="mailto:corrickdean8@gmail.com" style="color:var(--ambl);text-decoration:none;">corrickdean8@gmail.com</a></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#0d0704;border-top:1px solid rgba(212,160,23,.15);padding:2.5rem 2rem;text-align:center;margin-top:3rem;">
+  <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;font-style:italic;color:var(--ambd);margin-bottom:.5rem;">🎸 Music Madness</div>
+  <p style="color:var(--crd);font-size:.95rem;font-style:italic;max-width:500px;margin:0 auto .8rem;">"Keep the old tunes alive — they carry more wisdom than you know."</p>
+  <p style="color:rgba(201,180,142,.55);font-size:.85rem;max-width:560px;margin:0 auto 1.2rem;line-height:1.6;">Music Madness is a free learning tool celebrating the rich traditions of American roots music — folk, blues, and bluegrass — and the extraordinary musicians who have kept these sounds alive across generations.</p>
+  <div style="margin-top:.8rem;display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;">
+    <button onclick="showPage('home')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Home</button>
+    <button onclick="showPage('lessons')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Lessons</button>
+    <button onclick="showPage('theory')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Theory</button>
+    <button onclick="showPage('chords')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Chords</button>
+    <button onclick="showPage('tracker')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Practice</button>
+    <button onclick="showPage('songs')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Songs</button>
+    <button onclick="showPage('tuner')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Tuner</button>
+    <button onclick="showPage('artists')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Artists</button>
+    <button onclick="showPage('plans')" style="background:none;border:none;color:rgba(212,160,23,.5);cursor:pointer;font-family:'Special Elite',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(212,160,23,.9)'" onmouseout="this.style.color='rgba(212,160,23,.5)'">Plans</button>
+  </div>
+</footer>
+
+<script>
+// ── DAILY TIPS ───────────────────────────────────────────────────────────────
+const DAILY_TIPS = [
+  'Every great musician started with just one chord. Master it completely before rushing forward — quality over quantity, always.',
+  'Practice slow to play fast. Speed is the natural byproduct of accuracy, never the goal itself. Let tempo build itself.',
+  'Your ears are your most important instrument. Listen deeply and repeatedly to the music you love. Let it live in your bones before your fingers try to play it.',
+  'A short, focused practice every single day beats a long weekly session every time. Fifteen minutes of true attention changes everything.',
+  'Learn songs, not just exercises. Music lives in the song. Scales and drills are tools — but a real tune played with feeling is the destination.'
+];
+
+function showTip() {
+  var tip = document.getElementById('tip-text');
+  if (tip) {
+    var idx = new Date().getDay() % DAILY_TIPS.length;
+    tip.textContent = DAILY_TIPS[idx];
+  }
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+var PAGES = ['home','lessons','theory','chords','tracker','artists','songs','tuner','plans'];
+
+function showPage(name) {
+  PAGES.forEach(function(p) {
+    var el = document.getElementById('page-' + p);
+    if (el) el.classList.remove('active');
+    var n1 = document.getElementById('nav-' + p);
+    if (n1) n1.classList.remove('active');
+    var n2 = document.getElementById('mnav-' + p);
+    if (n2) n2.classList.remove('active');
+  });
+  var page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  var nb1 = document.getElementById('nav-' + name);
+  if (nb1) nb1.classList.add('active');
+  var nb2 = document.getElementById('mnav-' + name);
+  if (nb2) nb2.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (name === 'tracker') renderTracker();
+}
+
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMM() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  var m = document.getElementById('mobileMenu');
+  var h = document.getElementById('hamburger');
+  if (m && h && !m.contains(e.target) && !h.contains(e.target)) m.classList.remove('open');
+});
+
+// ── HOME ─────────────────────────────────────────────────────────────────────
+function goToLesson(instrument) {
+  showPage('lessons');
+  setTimeout(function(){ filtL(instrument); }, 60);
+}
+
+// ── LESSONS ──────────────────────────────────────────────────────────────────
+var curInstr = 'guitar', curLv = 'all';
+var viewed = new Set(JSON.parse(localStorage.getItem('mm_viewed') || '[]'));
+
+function filtL(instr) {
+  curInstr = instr;
+  ['guitar','banjo','mandolin'].forEach(function(i) {
+    var el = document.getElementById('ls-' + i);
+    if (el) el.style.display = (i === instr) ? 'block' : 'none';
+    var btn = document.getElementById('lb-' + i);
+    if (btn) btn.classList.toggle('active', i === instr);
+  });
+  applyLvFilter();
+}
+
+function filtLv(lv) {
+  curLv = lv;
+  ['all','beginner','intermediate','advanced'].forEach(function(l) {
+    var el = document.getElementById('lv-' + l);
+    if (el) el.classList.toggle('active', l === lv);
+  });
+  applyLvFilter();
+}
+
+function applyLvFilter() {
+  var c = document.getElementById('ls-' + curInstr);
+  if (!c) return;
+  c.querySelectorAll('.lcrd').forEach(function(card) {
+    if (curLv === 'all') { card.style.display = 'block'; return; }
+    var b = card.querySelector('.badge');
+    card.style.display = (b && b.textContent.toLowerCase().includes(curLv)) ? 'block' : 'none';
+  });
+}
+
+function togL(id) {
+  var card = document.getElementById('lc-' + id);
+  if (!card) return;
+  var wasOpen = card.classList.contains('open');
+  var c = document.getElementById('ls-' + curInstr);
+  if (c) c.querySelectorAll('.lcrd').forEach(function(x){ x.classList.remove('open'); });
+  if (!wasOpen) {
+    card.classList.add('open');
+    viewed.add(id);
+    localStorage.setItem('mm_viewed', JSON.stringify([...viewed]));
+    updateProg();
+  }
+}
+
+function nextL(cur, nxt) {
+  var c = document.getElementById('lc-' + cur);
+  if (c) c.classList.remove('open');
+  setTimeout(function(){
+    togL(nxt);
+    var nc = document.getElementById('lc-' + nxt);
+    if (nc) nc.scrollIntoView({behavior:'smooth',block:'start'});
+  }, 120);
+}
+
+function updateProg() {
+  var total = 9, v = viewed.size;
+  var pe = document.getElementById('lprog');
+  var be = document.getElementById('pbar');
+  if (pe) pe.textContent = v + '/' + total;
+  if (be) be.style.width = Math.round((v / total) * 100) + '%';
+}
+
+filtL('guitar');
+updateProg();
+
+// ── THEORY ───────────────────────────────────────────────────────────────────
+function togT(id) {
+  var card = document.getElementById(id);
+  if (!card) return;
+  var wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.tcrd').forEach(function(c){ c.classList.remove('open'); });
+  if (!wasOpen) card.classList.add('open');
+}
+
+// ── CHORDS ───────────────────────────────────────────────────────────────────
+function filtC(instr, btn) {
+  document.querySelectorAll('#page-chords .fbtn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  ['guitar','banjo','mandolin'].forEach(function(s){
+    var el = document.getElementById('cc-' + s);
+    if (el) el.style.display = (instr === 'all' || instr === s) ? 'block' : 'none';
+  });
+}
+
+// ── SONGS ─────────────────────────────────────────────────────────────────────
+function filtS(instr, btn) {
+  document.querySelectorAll('#page-songs .fbtn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  ['guitar','banjo','mandolin','multi'].forEach(function(s){
+    var el = document.getElementById('ss-' + s);
+    if (el) el.style.display = (instr === 'all' || instr === s) ? 'block' : 'none';
+  });
+}
+
+// ── PRACTICE TRACKER ─────────────────────────────────────────────────────────
+function getT() { return JSON.parse(localStorage.getItem('mm_tracker') || '{"goal":30,"sessions":[]}'); }
+function saveT(d) { localStorage.setItem('mm_tracker', JSON.stringify(d)); }
+
+function setGoal() {
+  var v = parseInt(document.getElementById('goalInp').value) || 30;
+  var d = getT();
+  d.goal = Math.max(5, Math.min(240, v));
+  saveT(d);
+  renderTracker();
+  var btn = document.querySelector('#page-tracker .btn-gold');
+  if (btn) { var o = btn.textContent; btn.textContent = '✓ Saved!'; setTimeout(function(){ btn.textContent = o; }, 1200); }
+}
+
+function logSess() {
+  var instr = document.getElementById('sInstr').value;
+  var topic = document.getElementById('sTopic').value.trim() || 'General practice';
+  var dur = parseInt(document.getElementById('sDur').value) || 20;
+  var d = getT();
+  d.sessions.unshift({instrument:instr, topic:topic, duration:dur, date:new Date().toISOString()});
+  if (d.sessions.length > 50) d.sessions = d.sessions.slice(0,50);
+  saveT(d);
+  renderTracker();
+  document.getElementById('sTopic').value = '';
+  var msg = document.getElementById('logMsg');
+  if (msg) { msg.textContent = '✓ Logged ' + dur + ' min of ' + instr + '!'; setTimeout(function(){ msg.textContent = ''; }, 2500); }
+}
+
+function clearLog() {
+  if (!confirm('Clear all practice sessions?')) return;
+  var d = getT(); d.sessions = []; saveT(d); renderTracker();
+}
+
+function delSess(i) {
+  var d = getT(); d.sessions.splice(i,1); saveT(d); renderTracker();
+}
+
+function renderTracker() {
+  var d = getT();
+  var goal = d.goal || 30;
+  var gi = document.getElementById('goalInp');
+  var gd = document.getElementById('goalD');
+  if (gi) gi.value = goal;
+  if (gd) gd.textContent = goal;
+
+  var now = new Date();
+  var weekAgo = new Date(now.getTime() - 7*24*3600*1000);
+  var weekM = 0, totalM = 0;
+  var byDate = {};
+
+  d.sessions.forEach(function(s) {
+    var ds = new Date(s.date).toDateString();
+    byDate[ds] = (byDate[ds] || 0) + s.duration;
+    totalM += s.duration;
+    if (new Date(s.date) >= weekAgo) weekM += s.duration;
+  });
+
+  // Streak calc
+  var streak = 0;
+  var cd = new Date(now);
+  for (var i = 0; i < 365; i++) {
+    var ds = cd.toDateString();
+    if (byDate[ds]) { streak++; cd.setDate(cd.getDate()-1); }
+    else if (i === 0) { cd.setDate(cd.getDate()-1); }
+    else break;
+  }
+
+  var sn = document.getElementById('streakN');
+  var wm = document.getElementById('weekM');
+  var tm = document.getElementById('totalM');
+  var ts = document.getElementById('totalS');
+  if (sn) sn.textContent = streak;
+  if (wm) wm.textContent = weekM;
+  if (tm) tm.textContent = totalM;
+  if (ts) ts.textContent = d.sessions.length;
+
+  var log = document.getElementById('sessLog');
+  if (!log) return;
+  if (!d.sessions.length) {
+    log.innerHTML = '<div style="color:var(--crd);font-style:italic;font-size:.95rem;text-align:center;padding:1.5rem;">No sessions logged yet. Start practicing!</div>';
+    return;
+  }
+  var em = {Guitar:'🎸',Banjo:'🪘',Mandolin:'🪕',Violin:'🎻',Bass:'🎷',Ukulele:'🎸'};
+  log.innerHTML = d.sessions.slice(0,20).map(function(s,i) {
+    var dt = new Date(s.date);
+    var ds = dt.toLocaleDateString('en-US',{month:'short',day:'numeric',weekday:'short'});
+    var ts2 = dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    var e2 = em[s.instrument] || '🎵';
+    return '<div class="log-e"><div style="color:var(--crd);"><span style="font-size:1.1rem;">' + e2 + '</span> <strong style="color:var(--cr);margin:0 .3rem;">' + s.instrument + '</strong><span style="color:var(--crd);">— ' + s.topic + '</span></div><div style="display:flex;align-items:center;gap:.8rem;"><div><span style="color:var(--amb);font-family:'Special Elite',monospace;font-size:.82rem;">' + s.duration + ' min</span><div style="font-size:.75rem;color:rgba(201,180,142,.5);">' + ds + ' ' + ts2 + '</div></div><button class="del-btn" onclick="delSess(' + i + ')" title="Remove">✕</button></div></div>';
+  }).join('');
+}
+
+renderTracker();
+showTip();
+
+// ── PLANS BILLING TOGGLE ────────────────────────────────────────────────
+function setPlanBilling(type) {
+  ['picker-monthly','pro-monthly'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = type === 'monthly' ? 'block' : 'none';
+  });
+  ['picker-annual','pro-annual'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = type === 'annual' ? 'block' : 'none';
+  });
+  document.querySelectorAll('.price-monthly').forEach(function(el) {
+    el.style.display = type === 'monthly' ? '' : 'none';
+  });
+  document.querySelectorAll('.price-annual').forEach(function(el) {
+    el.style.display = type === 'annual' ? '' : 'none';
+  });
+  var mb = document.getElementById('btn-billing-monthly');
+  var ab = document.getElementById('btn-billing-annual');
+  if (mb) mb.classList.toggle('active', type === 'monthly');
+  if (ab) ab.classList.toggle('active', type === 'annual');
+}
+
+</script>
+</body>
+</html>
