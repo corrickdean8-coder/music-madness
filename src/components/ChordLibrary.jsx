@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { Play } from 'lucide-react'
+import { Play, Lock } from 'lucide-react'
 import { CHORDS } from '../data/chords'
 import { INSTRUMENTS } from '../data/instruments'
 import { useAudio } from '../hooks/useAudio'
+import { usePro } from '../hooks/usePro'
+
+const FREE_CHORDS = ['G', 'D', 'C']
 
 function ChordDiagram({ chord, instrument }) {
   const inst = INSTRUMENTS[instrument]
@@ -17,41 +20,33 @@ function ChordDiagram({ chord, instrument }) {
 
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
-      {/* Nut */}
       <rect x={leftPad} y={topPad} width={(numStrings - 1) * stringSpacing} height={3} fill="#d4a037" rx={1} />
-
-      {/* Fret lines */}
       {Array.from({ length: numFrets }, (_, f) => (
         <line key={f} x1={leftPad} y1={topPad + (f + 1) * fretSpacing} x2={leftPad + (numStrings - 1) * stringSpacing} y2={topPad + (f + 1) * fretSpacing} stroke="#444" strokeWidth={1} />
       ))}
-
-      {/* String lines */}
       {Array.from({ length: numStrings }, (_, s) => (
         <line key={s} x1={leftPad + s * stringSpacing} y1={topPad} x2={leftPad + s * stringSpacing} y2={topPad + numFrets * fretSpacing} stroke="#666" strokeWidth={1} />
       ))}
-
-      {/* Finger positions, muted strings, open strings */}
       {chord.frets.map((fret, s) => {
         const x = leftPad + s * stringSpacing
-        if (fret === -1) {
-          return <text key={s} x={x} y={topPad - 8} textAnchor="middle" fill="#ef4444" fontSize={14} fontWeight="bold">✕</text>
-        }
-        if (fret === 0) {
-          return <circle key={s} cx={x} cy={topPad - 10} r={5} fill="none" stroke="#9ca3af" strokeWidth={1.5} />
-        }
-        return (
-          <circle key={s} cx={x} cy={topPad + (fret - 0.5) * fretSpacing} r={9} fill="#f59e0b" stroke="#fbbf24" strokeWidth={1} />
-        )
+        if (fret === -1) return <text key={s} x={x} y={topPad - 8} textAnchor="middle" fill="#ef4444" fontSize={14} fontWeight="bold">✕</text>
+        if (fret === 0) return <circle key={s} cx={x} cy={topPad - 10} r={5} fill="none" stroke="#9ca3af" strokeWidth={1.5} />
+        return <circle key={s} cx={x} cy={topPad + (fret - 0.5) * fretSpacing} r={9} fill="#f59e0b" stroke="#fbbf24" strokeWidth={1} />
       })}
     </svg>
   )
 }
 
-export default function ChordLibrary() {
+export default function ChordLibrary({ navigate }) {
   const [instrument, setInstrument] = useState('guitar')
   const { playChord } = useAudio()
-  const chords = CHORDS[instrument]
+  const { isPro } = usePro()
+  const allChords = CHORDS[instrument]
   const inst = INSTRUMENTS[instrument]
+
+  const freeChords = allChords.filter(c => FREE_CHORDS.includes(c.name))
+  const proChords = allChords.filter(c => !FREE_CHORDS.includes(c.name))
+  const visibleChords = isPro ? allChords : freeChords
 
   const getChordMidi = (chord) => {
     return chord.frets.map((fret, i) => {
@@ -77,7 +72,7 @@ export default function ChordLibrary() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {chords.map(chord => (
+        {visibleChords.map(chord => (
           <div key={chord.name} className="bg-[#12122a] border border-white/10 rounded-xl p-4 flex flex-col items-center hover:border-amber-500/40 transition">
             <h3 className="font-display text-xl font-bold text-white mb-2">{chord.name}</h3>
             <ChordDiagram chord={chord} instrument={instrument} />
@@ -88,6 +83,15 @@ export default function ChordLibrary() {
           </div>
         ))}
       </div>
+
+      {!isPro && proChords.length > 0 && (
+        <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl p-6 text-center">
+          <Lock className="w-8 h-8 text-amber-400 mx-auto mb-3" />
+          <h3 className="font-display text-lg font-bold text-white mb-2">Unlock {proChords.length} more chords with Pro</h3>
+          <p className="text-gray-400 text-sm mb-4">Get access to {proChords.map(c => c.name).join(', ')} and more.</p>
+          <button onClick={() => navigate('pricing')} className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-2.5 rounded-lg transition">Upgrade to Pro</button>
+        </div>
+      )}
     </div>
   )
 }

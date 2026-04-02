@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { Volume2, SkipForward, Star, RotateCcw } from 'lucide-react'
 import { useAudio } from '../hooks/useAudio'
+import ProGate from './ProGate'
 
 const INTERVALS = [
   { name: 'Minor 2nd', semitones: 1 },
@@ -44,7 +45,7 @@ function generateQuestion(mode) {
   }
 }
 
-export default function EarTraining({ addXP }) {
+export default function EarTraining({ addXP, navigate }) {
   const [mode, setMode] = useState('intervals')
   const [question, setQuestion] = useState(() => generateQuestion('intervals'))
   const [selected, setSelected] = useState(null)
@@ -84,6 +85,7 @@ export default function EarTraining({ addXP }) {
   }
 
   return (
+    <ProGate navigateTo={navigate}>
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="font-display text-3xl font-bold text-white">Ear Training</h1>
@@ -151,5 +153,6 @@ export default function EarTraining({ addXP }) {
         )}
       </div>
     </div>
+    </ProGate>
   )
 }

@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { ChevronLeft, Star, Lock } from 'lucide-react'
 import { useAudio } from '../hooks/useAudio'
+import { usePro } from '../hooks/usePro'
+import ProGate from './ProGate'
 
-export default function LessonDetail({ lesson, navigate, addXP, isPro }) {
+export default function LessonDetail({ lesson, navigate, addXP }) {
+  const { isPro } = usePro()
   const [stage, setStage] = useState('content')
   const [quizIndex, setQuizIndex] = useState(0)
   const [selected, setSelected] = useState(null)
@@ -10,13 +13,33 @@ export default function LessonDetail({ lesson, navigate, addXP, isPro }) {
   const { playNote } = useAudio()
 
   if (!lesson) return <div className="text-gray-400 p-8">No lesson selected. <button className="text-amber-400 underline" onClick={() => navigate('lessons')}>Go to Lessons</button></div>
+
   if (!lesson.free && !isPro) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-20 space-y-4">
-        <Lock className="w-16 h-16 text-amber-400 mx-auto" />
-        <h2 className="font-display text-2xl font-bold text-white">Pro Lesson Locked</h2>
-        <p className="text-gray-400">Upgrade to Pro to unlock this lesson and 8 more.</p>
-        <button onClick={() => navigate('pricing')} className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-3 rounded-xl transition">Upgrade to Pro</button>
+      <div className="max-w-3xl mx-auto space-y-6">
+        <button onClick={() => navigate('lessons')} className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition text-sm">
+          <ChevronLeft className="w-4 h-4" /> Back to Lessons
+        </button>
+        <ProGate navigateTo={navigate}>
+          <div className="bg-[#12122a] border border-white/10 rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{lesson.instrument === 'guitar' ? '🎸' : lesson.instrument === 'banjo' ? '🪕' : '🎻'}</span>
+                <div>
+                  <h1 className="font-display text-2xl font-bold text-white">{lesson.title}</h1>
+                  <p className="text-gray-400 text-sm capitalize">{lesson.instrument} · {lesson.xp} XP on completion</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-300 leading-relaxed">{lesson.description}</p>
+              <div className="bg-white/5 rounded-xl p-4 border border-white/10 mt-4">
+                <h3 className="font-semibold text-amber-400 mb-2">Instructions</h3>
+                <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{lesson.content.slice(0, 200)}...</p>
+              </div>
+            </div>
+          </div>
+        </ProGate>
       </div>
     )
   }

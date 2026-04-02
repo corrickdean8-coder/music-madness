@@ -28,8 +28,11 @@ export default function Layout({ children, page, navigate, xp, level, streak, le
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold text-gray-200">{level}</span>
           {isPro
-            ? <span className="flex items-center gap-1 text-xs bg-amber-500 text-black font-bold px-2 py-0.5 rounded-full"><Crown className="w-3 h-3" /> PRO</span>
-            : <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">FREE</span>
+            ? <span className="bg-amber-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full">⭐ Pro</span>
+            : <div className="flex items-center gap-2">
+                <span className="bg-gray-700 text-gray-400 text-xs font-bold px-3 py-1 rounded-full">Free</span>
+                <button onClick={() => navigate('pricing')} className="text-amber-400 text-xs hover:underline font-semibold">Upgrade</button>
+              </div>
           }
         </div>
         <div className="w-full bg-gray-700 rounded-full h-2 mb-2">

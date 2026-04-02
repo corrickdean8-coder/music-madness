@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Lock, CheckCircle, PlayCircle, Star } from 'lucide-react'
 import { LESSONS } from '../data/lessons'
+import { usePro } from '../hooks/usePro'
 
 const EMOJI = { guitar: '🎸', banjo: '🪕', mandolin: '🎻' }
 
-export default function Lessons({ navigate, isPro }) {
+export default function Lessons({ navigate }) {
+  const { isPro } = usePro()
   const [filter, setFilter] = useState('all')
   const completed = JSON.parse(localStorage.getItem('mm_completed') || '[]')
   const allLessons = [...LESSONS.guitar, ...LESSONS.banjo, ...LESSONS.mandolin]
@@ -30,9 +32,9 @@ export default function Lessons({ navigate, isPro }) {
           const isCompleted = completed.includes(lesson.id)
           const isLocked = !lesson.free && !isPro
           return (
-            <div key={lesson.id} onClick={() => !isLocked && navigate('lesson-detail', { lesson })}
-              className={`bg-[#12122a] border rounded-xl p-5 flex items-center gap-4 transition-all
-                ${isLocked ? 'border-white/5 opacity-60 cursor-not-allowed' : 'border-white/10 hover:border-amber-500/40 cursor-pointer hover:bg-white/5'}`}>
+            <div key={lesson.id} onClick={() => isLocked ? navigate('pricing') : navigate('lesson-detail', { lesson })}
+              className={`bg-[#12122a] border rounded-xl p-5 flex items-center gap-4 transition-all cursor-pointer
+                ${isLocked ? 'border-white/5 opacity-50' : 'border-white/10 hover:border-amber-500/40 hover:bg-white/5'}`}>
               <div className="text-2xl flex-shrink-0">{EMOJI[lesson.instrument]}</div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">

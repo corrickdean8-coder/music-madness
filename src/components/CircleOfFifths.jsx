@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAudio } from '../hooks/useAudio'
+import ProGate from './ProGate'
 
 const KEYS = [
   { name: 'C', minor: 'Am', midi: 60, chords: ['C','Dm','Em','F','G','Am','B°'], color: '#ef4444' },
@@ -18,7 +19,7 @@ const KEYS = [
 
 const NUMERALS = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°']
 
-export default function CircleOfFifths({ addXP }) {
+export default function CircleOfFifths({ addXP, navigate }) {
   const [selected, setSelected] = useState(null)
   const { playNote } = useAudio()
 
@@ -31,6 +32,7 @@ export default function CircleOfFifths({ addXP }) {
   }
 
   return (
+    <ProGate navigateTo={navigate}>
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="font-display text-3xl font-bold text-white">Circle of Fifths</h1>
@@ -142,5 +144,6 @@ export default function CircleOfFifths({ addXP }) {
         </div>
       </div>
     </div>
+    </ProGate>
   )
 }
