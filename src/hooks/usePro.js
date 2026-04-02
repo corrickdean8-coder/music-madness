@@ -1,7 +1,20 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 export function usePro() {
-  const [isPro, setIsPro] = useState(() => localStorage.getItem('mm_pro') === 'true')
-  const unlockPro = () => { localStorage.setItem('mm_pro', 'true'); setIsPro(true) }
-  return { isPro, unlockPro }
+  const [isPro, setIsPro] = useState(() => {
+    try {
+      return localStorage.getItem('isPro') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const setPro = (value) => {
+    setIsPro(value);
+    try {
+      localStorage.setItem('isPro', value ? 'true' : 'false');
+    } catch {}
+  };
+
+  return { isPro, setPro };
 }

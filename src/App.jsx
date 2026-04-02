@@ -21,7 +21,7 @@ export default function App() {
   const [pageParams, setPageParams] = useState({})
   const [toasts, setToasts] = useState([])
   const { xp, level, streak, addXP, levelInfo } = useXP()
-  const { isPro, unlockPro } = usePro()
+  const { isPro, setPro } = usePro()
 
   const navigate = (newPage, params = {}) => { setPage(newPage); setPageParams(params); window.scrollTo(0, 0) }
   const showToast = (message, type = 'success') => {
@@ -35,7 +35,7 @@ export default function App() {
     if (leveledUp) setTimeout(() => showToast(`🎉 Level Up! You are now a ${newLevel}!`, 'level'), 500)
   }
 
-  const shared = { navigate, isPro, unlockPro, xp, level, streak, levelInfo, addXP: handleAddXP, showToast }
+  const shared = { navigate, isPro, setPro, xp, level, streak, levelInfo, addXP: handleAddXP, showToast }
 
   const pages = {
     dashboard: <Dashboard {...shared} />,
