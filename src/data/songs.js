@@ -1,0 +1,17 @@
+export const SONGS = [
+  { id:1, title:'Wagon Wheel', instrument:'guitar', difficulty:'Beginner', key:'G', chords:['G','D','Em','C'], description:'A modern folk anthem by Old Crow Medicine Show.' },
+  { id:2, title:'Country Roads', instrument:'guitar', difficulty:'Beginner', key:'G', chords:['G','D','Em','C'], description:"John Denver's ode to West Virginia." },
+  { id:3, title:'Blackbird', instrument:'guitar', difficulty:'Intermediate', key:'G', chords:['G','Am','C','G/B'], description:"The Beatles' fingerpicking masterpiece." },
+  { id:4, title:'Tennessee Whiskey', instrument:'guitar', difficulty:'Intermediate', key:'A', chords:['A','Bm','D','E7'], description:"Chris Stapleton's blues-country classic." },
+  { id:5, title:'Deep River Blues', instrument:'guitar', difficulty:'Advanced', key:'G', chords:['G','C7','D7','G7'], description:"Doc Watson's signature fingerpicking showcase." },
+  { id:6, title:'Cripple Creek', instrument:'banjo', difficulty:'Beginner', key:'A', chords:['A','D','E'], description:'The first tune every 5-string banjo player learns.' },
+  { id:7, title:'Foggy Mountain Breakdown', instrument:'banjo', difficulty:'Advanced', key:'G', chords:['G','C','D','F'], description:"Earl Scruggs' defining piece." },
+  { id:8, title:'Old Joe Clark', instrument:'banjo', difficulty:'Intermediate', key:'A', chords:['A','G','D'], description:'A classic old-time tune for Scruggs and clawhammer.' },
+  { id:9, title:'Ashokan Farewell', instrument:'mandolin', difficulty:'Beginner', key:'D', chords:['D','G','A','Bm'], description:"Jay Ungar's beautiful waltz." },
+  { id:10, title:'Man of Constant Sorrow', instrument:'mandolin', difficulty:'Intermediate', key:'G', chords:['G','C','D'], description:'Traditional Appalachian from O Brother Where Art Thou.' },
+  { id:11, title:'Jerusalem Ridge', instrument:'mandolin', difficulty:'Advanced', key:'Am', chords:['Am','G','D','C'], description:"Bill Monroe's haunting minor-key instrumental." },
+  { id:12, title:'Arkansas Traveler', instrument:'multi', difficulty:'Beginner', key:'D', chords:['D','A','G','E7'], description:'A beloved fiddle tune for all folk instruments.' },
+  { id:13, title:'Salt Creek', instrument:'multi', difficulty:'Intermediate', key:'A', chords:['A','D','E','G'], description:'An up-tempo bluegrass jam standard.' },
+  { id:14, title:'Shady Grove', instrument:'multi', difficulty:'Intermediate', key:'Dm', chords:['Dm','C','Am','G'], description:'A haunting Appalachian song in the Dorian mode.' },
+  { id:15, title:'Blackberry Blossom', instrument:'multi', difficulty:'Advanced', key:'G', chords:['G','D','C','Am','Em'], description:'A challenging and beloved bluegrass tune.' },
+]
