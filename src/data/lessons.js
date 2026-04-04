@@ -182,6 +182,64 @@ export const LESSONS = {
         { question: 'What does melodic style sound like?', options: ['Choppy and percussive', 'Harp-like and cascading', 'Heavy and distorted', 'Quiet and muted'], answer: 1 },
       ],
     },
+    {
+      id: 'b7',
+      instrument: 'banjo',
+      title: 'Foggy Mountain Breakdown',
+      free: false,
+      xp: 75,
+      description: 'Play Earl Scruggs\' iconic bluegrass instrumental in Scruggs-style banjo.',
+      content: `## Foggy Mountain Breakdown
+
+### Background
+Foggy Mountain Breakdown is one of the most celebrated pieces in bluegrass history, recorded by Earl Scruggs and Lester Flatt in 1949. Played in the key of G, this instrumental defined the sound of Scruggs-style three-finger banjo picking and remains the gold standard for bluegrass banjo playing worldwide.
+
+### The Forward Roll Technique
+The entire song is driven by Earl Scruggs' signature forward roll. In the forward roll, your thumb (T), index finger (I), and middle finger (M) each pluck a string in sequence, creating a smooth, flowing cascade of notes. In Foggy Mountain Breakdown, this pattern runs continuously across the strings, giving the song its relentless, driving energy.
+
+### The Main G Chord Roll Pattern
+The primary roll pattern uses a T-I-M sequence across strings 3-2-1 and then brings in the 5th string drone:
+- **Thumb (T):** Strike string 3 (G string)
+- **Index (I):** Strike string 2 (B string)
+- **Middle (M):** Strike string 1 (high D string)
+- **Thumb (T):** Strike string 5 (5th string drone)
+
+This four-note cycle repeats throughout the verse sections, anchored by the ringing open G chord.
+
+### Structural Sections
+
+**Verse Roll Pattern:**
+The main body of the song repeats the forward roll continuously over the G chord. Keep your wrist relaxed and let each finger pluck cleanly through its string rather than strumming across.
+
+**Break Section — Descending Lick (D7 to G):**
+The signature "break" features a descending melodic lick that moves from a D7 chord position down to resolve on G. This lick is the hallmark of the song and requires precise fretting on the 2nd and 3rd strings while the roll continues underneath.
+
+### Chord Changes
+The chord progression moves through:
+**G → C → G → D7 → G**
+
+When shifting to C, bring your ring finger to the 2nd fret of the 4th string while the roll continues. For D7, form the chord and allow the descending break lick to pull you back to G naturally.
+
+### Technique Tips
+- **Even timing:** Each note in the roll must be perfectly even — no rushing or dragging between fingers.
+- **120+ BPM target:** At full performance speed, Foggy Mountain Breakdown sits at 120–140 BPM. Build up gradually.
+- **Crisp string separation:** Each finger should pluck its own string cleanly. Avoid letting fingers accidentally mute adjacent strings.
+- **Relaxed wrist:** Tension is the enemy of speed. Keep your right wrist loose and let finger movement do the work.
+
+### 7-Day Practice Plan
+- **Day 1–2:** Practice the forward roll slowly at 60 BPM. Focus on clean tone on each string, not speed.
+- **Day 3–4:** Add chord changes (G → C → G → D7 → G) while maintaining the roll pattern. Stay at 70–80 BPM.
+- **Day 5–6:** Play the full song at 90 BPM, including the descending break lick. Record yourself to check timing.
+- **Day 7:** Push the tempo to 110+ BPM. Aim for clean, even notes at higher speed.
+
+Remember: Earl Scruggs himself said the secret to his picking was relaxation. Speed comes from efficiency, not effort.`,
+      exercise: 'Play the main G roll pattern of Foggy Mountain Breakdown at 80 BPM, focusing on clean string separation and even timing.',
+      quiz: [
+        { question: 'Who composed Foggy Mountain Breakdown?', options: ['Bill Monroe', 'Earl Scruggs', 'Doc Watson', 'Lester Flatt'], answer: 1 },
+        { question: 'What key is Foggy Mountain Breakdown in?', options: ['D Major', 'A Major', 'G Major', 'C Major'], answer: 2 },
+        { question: 'What roll pattern drives Foggy Mountain Breakdown?', options: ['Backward roll', 'Alternating thumb roll', 'Forward roll', 'Clawhammer stroke'], answer: 2 },
+      ],
+    },
   ],
   mandolin: [
     {
