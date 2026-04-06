@@ -15,7 +15,7 @@ const NAV_ITEMS = [
   { id: 'pricing', label: 'Upgrade', icon: CreditCard },
 ]
 
-export default function Layout({ children, page, navigate, xp, level, streak, levelInfo, isPro }) {
+export default function Layout({ children, page, navigate, xp, level, streak, levelInfo, isPro, tier }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const SidebarContent = () => (
@@ -27,8 +27,10 @@ export default function Layout({ children, page, navigate, xp, level, streak, le
       <div className="p-4 border-b border-white/10">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold text-gray-200">{level}</span>
-          {isPro
-            ? <span className="flex items-center gap-1 text-xs bg-amber-500 text-black font-bold px-2 py-0.5 rounded-full"><Crown className="w-3 h-3" /> PRO</span>
+          {tier === 'premium'
+            ? <span className="flex items-center gap-1 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold px-2 py-0.5 rounded-full"><Crown className="w-3 h-3" /> PREMIUM</span>
+            : tier === 'pro'
+            ? <span className="flex items-center gap-1 text-xs bg-amber-500 text-black font-bold px-2 py-0.5 rounded-full"><Star className="w-3 h-3" /> PRO</span>
             : <span className="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full">FREE</span>
           }
         </div>
@@ -47,7 +49,7 @@ export default function Layout({ children, page, navigate, xp, level, streak, le
               ${page === id ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-gray-400 hover:bg-white/5 hover:text-gray-200'}`}>
             <Icon className="w-4 h-4 flex-shrink-0" />
             {label}
-            {id === 'pricing' && !isPro && <span className="ml-auto text-xs bg-amber-500 text-black font-bold px-1.5 py-0.5 rounded">PRO</span>}
+            {id === 'pricing' && !isPro && <span className="ml-auto text-xs bg-amber-500 text-black font-bold px-1.5 py-0.5 rounded">UPGRADE</span>}
           </button>
         ))}
       </nav>

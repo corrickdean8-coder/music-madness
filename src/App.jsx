@@ -21,7 +21,7 @@ export default function App() {
   const [pageParams, setPageParams] = useState({})
   const [toasts, setToasts] = useState([])
   const { xp, level, streak, addXP, levelInfo } = useXP()
-  const { isPro, setPro } = usePro()
+  const { tier, setTier, isPro, setPro } = usePro()
 
   const navigate = (newPage, params = {}) => { setPage(newPage); setPageParams(params); window.scrollTo(0, 0) }
   const showToast = (message, type = 'success') => {
@@ -35,7 +35,7 @@ export default function App() {
     if (leveledUp) setTimeout(() => showToast(`🎉 Level Up! You are now a ${newLevel}!`, 'level'), 500)
   }
 
-  const shared = { navigate, isPro, setPro, xp, level, streak, levelInfo, addXP: handleAddXP, showToast }
+  const shared = { navigate, tier, setTier, isPro, setPro, xp, level, streak, levelInfo, addXP: handleAddXP, showToast }
 
   const pages = {
     dashboard: <Dashboard {...shared} />,
@@ -53,7 +53,7 @@ export default function App() {
   }
 
   return (
-    <Layout page={page} navigate={navigate} xp={xp} level={level} streak={streak} levelInfo={levelInfo} isPro={isPro}>
+    <Layout page={page} navigate={navigate} xp={xp} level={level} streak={streak} levelInfo={levelInfo} isPro={isPro} tier={tier}>
       {pages[page] || pages.dashboard}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none">
         {toasts.map(t => (

@@ -18,7 +18,7 @@ const QUICK_NAV = [
   { id: 'achievements', label: 'Achievements', icon: Award, desc: 'Badges & milestones', color: 'text-yellow-400' },
 ]
 
-export default function Dashboard({ navigate, xp, level, streak, levelInfo, isPro }) {
+export default function Dashboard({ navigate, xp, level, streak, levelInfo, isPro, tier }) {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div className="flex items-start justify-between flex-wrap gap-4">
@@ -26,8 +26,10 @@ export default function Dashboard({ navigate, xp, level, streak, levelInfo, isPr
           <h1 className="font-display text-3xl lg:text-4xl font-bold text-white">Welcome back! 🎵</h1>
           <p className="text-gray-400 mt-1">Keep strumming — every note counts.</p>
         </div>
-        {isPro
-          ? <span className="flex items-center gap-1.5 bg-amber-500 text-black font-bold px-3 py-1.5 rounded-full text-sm"><Crown className="w-4 h-4" /> PRO</span>
+        {tier === 'premium'
+          ? <span className="flex items-center gap-1.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold px-3 py-1.5 rounded-full text-sm"><Crown className="w-4 h-4" /> PREMIUM</span>
+          : tier === 'pro'
+          ? <span className="flex items-center gap-1.5 bg-amber-500 text-black font-bold px-3 py-1.5 rounded-full text-sm"><Star className="w-4 h-4" /> PRO</span>
           : <button onClick={() => navigate('pricing')} className="flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold px-3 py-1.5 rounded-full text-sm hover:opacity-90 transition"><Zap className="w-4 h-4" /> Go Pro</button>
         }
       </div>
