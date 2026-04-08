@@ -90,6 +90,21 @@ export const LESSONS = {
         { question: 'What rhythmic feel defines the blues?', options: ['Straight eighths', 'Shuffle', 'Waltz', 'March'], answer: 1 },
       ],
     },
+    {
+      id: 'g7',
+      instrument: 'guitar',
+      title: 'The Birth of Slide Guitar',
+      free: false,
+      xp: 50,
+      description: 'Explore the Delta Blues roots of slide guitar — open tunings, bottleneck technique, and the lineage from Charley Patton to Robert Johnson.',
+      content: `The Delta Blues gave birth to one of the most expressive guitar techniques in American music: slide guitar. Charley Patton, Son House, and Robert Johnson developed the bottleneck style in the Mississippi Delta in the early 20th century. Using a glass bottle neck, a metal tube, or a dedicated slide worn on the finger, these musicians bent and glided between notes in ways that mimicked the human voice — raw, crying, and deeply soulful.\n\nOpen G tuning (D–G–D–G–B–D, low to high) is the classic setup for slide guitar. Retune your standard guitar: lower the low E string to D, lower the A string to G, leave the D string, lower the B string to... wait — actually for Open G: strings 6-5-4-3-2-1 become D-G-D-G-B-D. Lower string 6 (E→D), lower string 5 (A→G), leave string 4 (D), leave string 3 (G), leave string 2 (B), lower string 1 (E→D).\n\nSlide technique requires a light touch. Rest the slide gently on the strings directly over the fret wire — not behind it like normal fretting. The slide should hover over the fret, not press the strings down to the fretboard. Practice placing the slide at the 12th fret: you should hear a clean, ringing tone on every string without any buzzing from the fretboard.\n\nA basic exercise: slide from the 12th fret to the 14th fret and back on the B and high-E strings. The motion should be smooth and even. Use your picking hand to lightly mute unwanted strings — rest the edge of your palm or trailing fingers on strings you are not playing. Keep the slide perfectly parallel to the frets at all times for even intonation across strings.`,
+      exercise: 'Slide from fret 12→14→12 on strings 1 and 2 (B and high-E) in Open G tuning. Once comfortable, repeat the same 12→14→12 pattern shifted down to the 5th and 7th frets.',
+      quiz: [
+        { question: 'What tuning is used for Open G slide guitar?', options: ['E–A–D–G–B–E', 'D–G–D–G–B–D', 'D–A–D–G–B–E', 'D–G–D–A–B–D'], answer: 1 },
+        { question: 'Which musician is most associated with developing early slide guitar technique?', options: ['Jimi Hendrix', 'Robert Johnson', 'Doc Watson', 'Merle Travis'], answer: 1 },
+        { question: 'What is the key technique for slide guitar?', options: ['Press the slide firmly to the fretboard', 'Light pressure over the fret without pressing to the fretboard', 'Use only the high E string', 'Keep the slide perpendicular to the frets'], answer: 1 },
+      ],
+    },
   ],
   banjo: [
     {
