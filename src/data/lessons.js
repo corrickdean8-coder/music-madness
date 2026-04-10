@@ -274,5 +274,20 @@ export const LESSONS = {
         { question: 'Which notes should you emphasize on strong beats?', options: ['Chromatic notes', 'Passing tones', 'Chord tones', 'Blue notes'], answer: 2 },
       ],
     },
+    {
+      id: 'm7',
+      instrument: 'mandolin',
+      title: 'Monroe-Style Chop Chords',
+      free: false,
+      xp: 50,
+      description: 'Master the signature Bill Monroe chop chord rhythm that defines the bluegrass sound.',
+      content: `Bill Monroe invented the chop chord technique in the 1940s, and it remains the heartbeat of bluegrass mandolin. The chop is a precise, percussive accent on beats 2 and 4 — the back-beat — that drives the rhythm like a snare drum and locks the band together.\n\nTo execute Monroe's chop, form a chord shape with your left hand, strike the strings with a sharp downstroke, and immediately release pressure to mute the strings. The sound should be a short, crisp "chk" with no sustain. The harder you mute, the sharper the chop.\n\nMonroe's genius was combining chop chords with melodic runs between chord changes. Between the chops, he would insert a quick pentatonic lick or double stop, keeping the rhythm while adding melody. Practice the straight chop first — G on beat 1 (full strum), chop on beat 2, G on beat 3 (full strum), chop on beat 4 — then introduce short licks between the beats.`,
+      exercise: 'Play G and C chop chords in a one-minute rhythm exercise, accenting beats 2 and 4.',
+      quiz: [
+        { question: 'Who invented the mandolin chop chord technique?', options: ['Chris Thile', 'Bill Monroe', 'Jesse McReynolds', 'Sam Bush'], answer: 1 },
+        { question: 'On which beats does the Monroe-style chop accent?', options: ['1 and 3', '2 and 4', '1 and 2', '3 and 4'], answer: 1 },
+        { question: 'What makes the chop sound short and percussive?', options: ['Striking harder', 'Immediately muting after the stroke', 'Using a thicker pick', 'Open string voicings'], answer: 1 },
+      ],
+    },
   ],
 }
