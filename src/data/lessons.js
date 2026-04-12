@@ -275,4 +275,21 @@ export const LESSONS = {
       ],
     },
   ],
+  violin: [
+    {
+      id: 'v1',
+      instrument: 'violin',
+      title: 'Introduction to Violin — Open Strings & Bow Hold',
+      free: true,
+      xp: 50,
+      description: 'Learn violin tuning, the Franco-Belgian bow hold, rosin application, and play all four open strings with proper posture.',
+      content: `The violin is tuned in perfect fifths: G–D–A–E from lowest to highest string. Before you play a single note, your violin must be in tune. Use a clip-on tuner or a tuning app — even slight detuning makes the instrument sound harsh and discourages the ear.\n\nThe Franco-Belgian bow hold is the most widely taught foundational grip. Rest the bow stick lightly on the first joint of your index finger, curve your middle and ring fingers over the top of the stick, let your pinky rest curved on top of the stick near the tip, and wrap your thumb under the stick, touching the frog. The grip should be relaxed — like holding a small bird. Tension is the enemy of tone.\n\nRosin is a sticky resin that you apply to the bow hair so it grips the string and produces sound. Without rosin, the bow slides silently across the string. Apply rosin by drawing the bow hair slowly across the rosin cake 4–6 times before each practice session. Too little rosin produces a thin, airy sound. Too much rosin produces a scratchy, crunchy sound.\n\nNow place the bow on the open G string, halfway between the bridge and the fingerboard (this is called the "sounding point"). Draw the bow slowly from frog to tip in one smooth motion. Listen for a clear, resonant tone. If the sound is scratchy, relax your bow arm. If the sound is airy, apply a little more rosin or press very slightly more.\n\nRepeat on the D string, then A, then E. The open strings are the foundation of all violin technique — every scale, melody, and etude starts here. Good posture is essential: chin resting comfortably on the chin rest, left shoulder relaxed (a shoulder rest can help), and the violin held parallel to the floor. Stand or sit tall. Your left hand should curve naturally under the neck, with the thumb opposite the first finger and not gripping tightly.`,
+      exercise: 'Play each open string — G, D, A, E — slowly and clearly 10 times each, using a full bow stroke from frog to tip. Listen for a pure, resonant tone without buzzing or scratching.',
+      quiz: [
+        { question: 'What is the standard tuning of the violin from lowest to highest string?', options: ['E–A–D–G', 'G–D–A–E', 'A–D–G–B', 'D–G–B–E'], answer: 1 },
+        { question: 'What is the purpose of rosin on a violin bow?', options: ['To clean the strings', 'To make the bow grip the string and produce sound', 'To lubricate the tuning pegs', 'To protect the bow hair from breaking'], answer: 1 },
+        { question: 'Where on the string should the bow contact the string for the best tone?', options: ['Right next to the bridge', 'On the fingerboard', 'Halfway between the bridge and the fingerboard', 'At the very end of the fingerboard'], answer: 2 },
+      ],
+    },
+  ],
 }

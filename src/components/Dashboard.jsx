@@ -4,6 +4,7 @@ const INSTRUMENTS = [
   { key: 'guitar', name: 'Guitar', emoji: '🎸', desc: '6 strings · EADGBE · 24 frets', color: 'from-amber-500/20 to-amber-700/10 border-amber-500/30' },
   { key: 'banjo', name: 'Banjo', emoji: '🪕', desc: '5 strings · gDGBD · 22 frets', color: 'from-purple-500/20 to-purple-700/10 border-purple-500/30' },
   { key: 'mandolin', name: 'Mandolin', emoji: '🎻', desc: '4 courses · GDAE · 20 frets', color: 'from-emerald-500/20 to-emerald-700/10 border-emerald-500/30' },
+  { key: 'violin', name: 'Violin', emoji: '🎻', desc: '4 strings · GDAE · open', color: 'from-rose-500/20 to-rose-700/10 border-rose-500/30' },
 ]
 
 const QUICK_NAV = [
