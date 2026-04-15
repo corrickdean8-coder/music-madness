@@ -90,6 +90,27 @@ export const LESSONS = {
         { question: 'What rhythmic feel defines the blues?', options: ['Straight eighths', 'Shuffle', 'Waltz', 'March'], answer: 1 },
       ],
     },
+    {
+      id: 'g8',
+      instrument: 'guitar',
+      title: 'Carter Family Boom-Chuck',
+      free: false,
+      xp: 50,
+      description: 'Learn the boom-chuck style that launched American folk music and the Carter Family sound.',
+      content: `The Carter Family — A.P., Sara, and Maybelle Carter — defined American folk music in the late 1920s and 1930s. Maybelle Carter invented a revolutionary guitar technique: play the melody on the bass strings with the thumb while the fingers brush the treble strings on the offbeats. This became the foundation of country and folk guitar.
+
+The simplified version of this style is "boom-chuck." The thumb plays a bass note on beats 1 and 3 (the "boom"), and the fingers or pick strum the upper strings on beats 2 and 4 (the "chuck"). The result is a driving, two-feel rhythm that propels any song forward.
+
+In the key of G, your boom notes are: G chord → alternates between 6th string (open E, low G bass) and 4th string (open D). C chord → 5th string (open A, the C bass) and 4th string. D7 chord → 4th string (open D) and 5th string (A note, 0 fret).
+
+Keep the thumb firm and the chuck light. The melody or vocal sits right on top of this steady rhythmic pulse. Boom-chuck works for any folk, country, or bluegrass song in any key — it is one of the most versatile tools in acoustic guitar.`,
+      exercise: 'Play boom-chuck rhythm through G-C-D-G for 2 minutes, keeping the bass notes clear and the chuck strums light.',
+      quiz: [
+        { question: 'Who invented the Carter Family guitar style?', options: ['A.P. Carter', 'Sara Carter', 'Maybelle Carter', 'June Carter'], answer: 2 },
+        { question: 'On which beats does the "boom" (bass note) fall in boom-chuck?', options: ['2 and 4', '1 and 3', '1 and 2', '3 and 4'], answer: 1 },
+        { question: 'What makes Maybelle Carter\'s technique revolutionary?', options: ['She used a slide', 'She played melody on bass strings while strumming treble strings', 'She played banjo-style rolls', 'She used alternate tuning'], answer: 1 },
+      ],
+    },
   ],
   banjo: [
     {
